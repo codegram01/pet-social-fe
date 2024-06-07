@@ -1,5 +1,8 @@
 <script setup>
 import { ref } from "vue";
+import { api } from "@/modules/api";
+import { save_token_local, get_auth_info } from "@/stores/auth";
+
 const dataLogin = ref({
     email: "",
     password: ""
@@ -7,17 +10,10 @@ const dataLogin = ref({
 
 const login = async () => {
     try {
-        await fetch("http://localhost:8000/api/auth/login", {
-            method: "POST",
-            mode: "cors",
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(dataLogin.value),
-        }).then(async res => {
-            const data = await res.json()
-            console.log(data)
-        })
+        const data = await api("POST", "/auth/login", dataLogin.value)
+        save_token_local(data.token)
+        await get_auth_info()
+
     } catch (error) {
         console.log(error)
     }
@@ -25,19 +21,31 @@ const login = async () => {
 </script>
 
 <template>
-    <div>
-        <h1>Login</h1>
+    <div class="page">
+        <form class="form" @submit.prevent="login">
+            <h2>Login</h2>
 
-        <div>
-            <div>
-                <label>Email</label>
-                <input type="text" v-model="dataLogin.email">
-            </div>
-            <div>
-                <label>Password</label>
-                <input type="password" v-model="dataLogin.password">
-            </div>
-        </div>
-        <button @click="login">Login</button>
+            <label>Email</label>
+            <input type="email" v-model="dataLogin.email">
+            <div class="error"></div>
+
+            <label>Password</label>
+            <input type="password" v-model="dataLogin.password">
+            <div class="error"></div>
+
+            <button type="submit">Login</button>
+        </form>
     </div>
 </template>
+
+<style scoped>
+@import url("@/assets/form.css");
+
+.page {
+    padding-top: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+</style>

@@ -1,30 +1,38 @@
 <script setup>
+import Navbar from "@/components/layouts/Navbar.vue";
+
 </script>
 
 <template>
-  <div>
+  <div class="app">
     <div class="navbar">
-      <RouterLink class="logo" to="/">Pet Social</RouterLink>
-     
-      <div class="navbar-action">
-        <RouterLink to="/login">Login</RouterLink>
-        |
-        <RouterLink to="/register">Register</RouterLink>
-      </div>
+      <Navbar />
     </div>
-    <RouterView />
+    <div class="page-ctn">
+      <RouterView />
+    </div>
   </div>
 </template>
 
 <style scoped>
-.navbar {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid black;
-  background: rgb(199, 199, 242);
+.app {
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 
-.navbar-action {
-  margin-left: auto;
+.navbar {
+  height: 72px;
+  width: 100%;
+  position: absolute;
+  top: 0px;
 }
+
+.page-ctn {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 72px);
+  bottom: 0px;
+}
+
 </style>

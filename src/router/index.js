@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import Middleware from './middleware'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -17,7 +18,12 @@ const router = createRouter({
       path: '/register',
       component: () => import('@/views/RegisterView.vue')
     }
+    ,{
+      path: '/posts',
+      component: () => import('@/views/PostsView.vue')
+    }
   ]
 })
 
+new Middleware(router)
 export default router
