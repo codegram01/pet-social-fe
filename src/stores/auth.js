@@ -1,9 +1,32 @@
-import { ref } from "vue";
-import { api } from "@/modules/api";
+import { ref, computed } from "vue";
+import { auth_info_api } from "@/services/auth";
 
 export const token = ref("")
 
 export const auth_user = ref(null)
+
+export const isLoggedIn = computed(()=> {
+    return auth_user.value
+})
+
+export const isCreatedProfile = computed(()=> {
+    if(!isLoggedIn.value){
+        return false
+    }else {
+        if(auth_user.value.profile_id){
+            return true
+        }
+    }
+    return false;
+})
+/*
+"id": 6,
+"email": "nguyenpro@gmail.com",
+"created_at": "2024-06-09T13:48:22.478Z",
+"profile_id": 10,  // co khi nguoi dung da tao profile
+"role": "USER"
+*/
+
 
 export const save_token_local = (tk) => {
     token.value = "Bearer " + tk
@@ -12,7 +35,7 @@ export const save_token_local = (tk) => {
 
 export const get_auth_info = async () => {
     try {
-        const data = await api("GET", "/auth/info")
+        const data = await auth_info_api()
         auth_user.value = data;
     } catch (error) {
         console.log(error)
@@ -31,7 +54,9 @@ export const init_auth = async () => {
     load_token_local();
 
     if(token.value){
+        // user chưa đăng nhập 
         await get_auth_info();
+        // user đã đăng nhập 
     }
 }
 

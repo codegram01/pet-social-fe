@@ -2,6 +2,7 @@
 import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { token } from "@/stores/auth";
+import { auth_register_api } from "@/services/auth";
 
 const router = useRouter()
 
@@ -11,25 +12,19 @@ const dataRegister = ref({
     confirm_password: ""
 })
 
+const err_register = ref("");
+
 const register = async () => {
     console.log(token.value)
-    // try {
-    //     await fetch("http://localhost:8000/api/auth/register", {
-    //         method: "POST",
-    //         mode: "cors",
-    //         headers: {
-    //             "Content-Type": "application/json",
-    //         },
-    //         body: JSON.stringify(dataRegister.value),
-    //     }).then(async res => {
-    //         const data = await res.json()
-        
-    //         alert("Register success")
-    //         router.push("/login")
-    //     })
-    // } catch (error) {
-    //     console.log(error)
-    // }
+    try {
+        await auth_register_api(dataRegister.value)
+
+        alert("Register success")
+
+        router.push("/login")
+    } catch (error) {
+        err_register.value = error
+    }
 }
 </script>
 
@@ -40,7 +35,7 @@ const register = async () => {
 
             <label>Email</label>
             <input type="email" v-model="dataRegister.email">
-            <div class="error"></div>
+            <div class="error">{{ err_register }}</div>
 
             <label>Password</label>
             <input type="password" v-model="dataRegister.password">
@@ -56,8 +51,6 @@ const register = async () => {
 </template>
 
 <style scoped>
-@import url("@/assets/form.css");
-
 .page {
     padding-top: 42px;
     display: flex;

@@ -22,4 +22,5 @@
 .form .error {
     height: 24px;
     width: 100%;
+    color: red;
 }

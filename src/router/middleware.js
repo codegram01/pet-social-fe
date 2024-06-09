@@ -17,7 +17,8 @@ export default class {
             console.log(auth_user.value)
 
 			if (!auth_user.value) {
-				if (path == "/about") {
+				if (path == "/about" 
+				) {
 					this.#router.push("/login");
 				}
 			} else {
@@ -33,7 +34,7 @@ export default class {
     watchAuth() {
 		watch(() => auth_user.value, () => {
 			if (auth_user.value) {
-                this.#router.push("/");
+                // this.#router.push("/");
 			} else {
 				this.#router.push("/login");
 			}
