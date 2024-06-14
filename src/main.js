@@ -9,8 +9,16 @@ import { init_store } from './stores'
 
 const app = createApp(App)
 
-app.use(router)
 
-app.mount('#app')
 
-init_store()
+const init_app = async () => {
+    await init_store()
+
+    app.use(router)
+
+    
+    
+    app.mount('#app')
+}
+
+init_app()

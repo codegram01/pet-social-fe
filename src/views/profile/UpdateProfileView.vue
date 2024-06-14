@@ -2,7 +2,9 @@
 import { ref, onBeforeMount } from "vue";
 import { profile_update_api, profile_get_api } from "@/services/profile"
 import { isCreatedProfile, auth_user } from "@/stores/auth"
+import { useRouter } from "vue-router";
 
+const router = useRouter();
 
 onBeforeMount(async ()=> {
     console.log("is created profile ", isCreatedProfile.value);
@@ -36,6 +38,10 @@ const updateProfile = async () => {
             address: dataProfile.value.address,
             birthday: new Date(dataProfile.value.birthday),
             gender: dataProfile.value.gender
+        }).then(res => {
+            auth_user.value.profile_id = res.id;
+            
+            router.push(`/profile/${res.id}`)
         })
     } catch (error) {
         console.log(error)

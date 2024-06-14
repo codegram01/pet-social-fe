@@ -17,7 +17,7 @@ export default class {
             console.log(auth_user.value)
 
 			if (!auth_user.value) {
-				if (path == "/about" 
+				if (path == "/about" || path == "/posts"
 				) {
 					this.#router.push("/login");
 				}
@@ -36,7 +36,7 @@ export default class {
 			if (auth_user.value) {
                 // this.#router.push("/");
 			} else {
-				this.#router.push("/login");
+				// this.#router.push("/login");
 			}
 		})
 	}

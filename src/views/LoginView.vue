@@ -2,6 +2,9 @@
 import { ref } from "vue";
 import { save_token_local, get_auth_info } from "@/stores/auth";
 import { auth_login_api } from "@/services/auth"
+import { useRouter } from "vue-router";
+
+const router = useRouter();
 
 const dataLogin = ref({
     email: "",
@@ -13,6 +16,8 @@ const login = async () => {
         const data = await auth_login_api(dataLogin.value)
         save_token_local(data.token)
         await get_auth_info()
+
+        router.push("/")
     } catch (error) {
         console.log('on login error ', error)
     }

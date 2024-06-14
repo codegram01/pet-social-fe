@@ -22,7 +22,7 @@ const router = createRouter({
       path: '/posts',
       component: () => import('@/views/PostsView.vue')
     },{
-      path: '/profile',
+      path: '/profile/:id',
       component: () => import('@/views/profile/ProfileView.vue')
     },{
       path: '/profile/update',
