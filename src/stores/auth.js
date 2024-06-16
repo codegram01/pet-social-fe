@@ -19,6 +19,12 @@ export const isCreatedProfile = computed(()=> {
     }
     return false;
 })
+
+export const myProfileId = computed(()=> {
+    if(auth_user.value){
+        return auth_user.value.profile_id
+    }
+})
 /*
 "id": 6,
 "email": "nguyenpro@gmail.com",

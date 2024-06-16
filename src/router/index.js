@@ -20,13 +20,16 @@ const router = createRouter({
     }
     ,{
       path: '/posts',
-      component: () => import('@/views/PostsView.vue')
+      component: () => import('@/views/post/PostsView.vue')
     },{
-      path: '/profile/:id',
+      path: '/profile/:idUser',
       component: () => import('@/views/profile/ProfileView.vue')
     },{
       path: '/profile/update',
       component: () => import('@/views/profile/UpdateProfileView.vue')
+    },{
+      path: '/posts/:idPost',
+      component: () => import('@/views/post/PostDetailView.vue')
     }
   ]
 })
