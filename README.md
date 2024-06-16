@@ -1,14 +1,15 @@
-# pet-social-fe
+# Pet Social FE
 
-This template should help get you started developing with Vue 3 in Vite.
+FrontEnd for Pet Social with Vuejs
 
-## Recommended IDE Setup
+## Feature
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+Similar Facebook but focus on Pet. Features: 
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
+- auth
+- profile
+- post 
+- chat
 
 ## Project Setup
 
@@ -22,8 +23,6 @@ npm install
 npm run dev
 ```
 
-### Compile and Minify for Production
+### Run BackEnd
 
-```sh
-npm run build
-```
+[pet-social-be](https://github.com/cdroot01/pet-social-be)
