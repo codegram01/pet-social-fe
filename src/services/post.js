@@ -36,3 +36,21 @@ export const post_like_api = async (idPost) => {
         throw error
     }
 }
+
+export const post_comment_api = async (idPost, data) => {
+    try {
+        return await api("POST", `/posts/${idPost}/comment`, data)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
+export const post_delete_comment_api = async (idComment) => {
+    try {
+        return await api("DELETE", `/posts/comment/${idComment}`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}

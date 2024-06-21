@@ -18,3 +18,12 @@ export const profile_get_api = async (id) => {
         throw error
     }
 }
+
+export const user_info_get_api = async (id) => {
+    try {
+        return await api("GET", `/profiles/info/${id}`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}

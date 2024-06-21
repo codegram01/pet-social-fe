@@ -2,6 +2,7 @@
 import {ref, onBeforeMount } from "vue";
 import { post_list_api } from "@/services/post";
 import CreatePost from "@/components/posts/CreatePost.vue";
+import CardUser from "@/components/profile/CardUser.vue";
 
 const posts = ref([])
 onBeforeMount(async()=> {
@@ -34,13 +35,14 @@ const createNewPost = (post) => {
             <button class="post-create-btn" @click="openPopupCreate">Create Post</button>
 
         </div>
-        <div v-for="post of posts">
+        <div v-for="post of posts" :key="post.id">
             <RouterLink :to="'/posts/' + post.id">
                 <h2>{{ post.title }}</h2>
             </RouterLink>
             <div>
                 {{ post.content }}
             </div>
+            <CardUser :profile_id="post.profile_id" />
             <hr>
         </div>
 

@@ -3,6 +3,7 @@ import { ref, computed, onBeforeMount } from "vue";
 import {useRoute} from "vue-router";
 import { post_detail_api } from "@/services/post";
 import ActionPost from "@/components/posts/ActionPost.vue";
+import CardUser from "@/components/profile/CardUser.vue";
 
 const route = useRoute()
 
@@ -16,6 +17,8 @@ const getDetailPost = async () => {
         await post_detail_api(idPost.value).then(res => {
             post.value = res
         })
+
+
     } catch (error) {
         console.log(error)
     }
@@ -40,6 +43,7 @@ const updateLikes = (likes) => {
         <div v-if="isDoneLoad">
             <div v-if="post">
                 <h1>{{ post.title }}</h1>
+                <CardUser :profile_id="post.profile_id" />
                 <h2>{{ post.content }}</h2>
                 <hr>
                 <ActionPost 
