@@ -27,3 +27,21 @@ export const user_info_get_api = async (id) => {
         throw error
     }
 }
+
+export const profile_follow_api = async (id) => {
+    try {
+        return await api("POST", `/profiles/${id}/follow`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
+export const profile_follow_count_api = async (id) => {
+    try {
+        return await api("GET", `/profiles/${id}/follow/count`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}

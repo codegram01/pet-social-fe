@@ -19,6 +19,15 @@ export const post_list_api = async () => {
     }
 }
 
+export const post_list_follow_api = async () => {
+    try {
+        return await api("GET", "/posts/follow")
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
 export const post_detail_api = async (id) => {
     try {
         return await api("GET", `/posts/${id}`)

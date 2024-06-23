@@ -20,7 +20,12 @@ const router = createRouter({
     }
     ,{
       path: '/posts',
-      component: () => import('@/views/post/PostsView.vue')
+      component: () => import('@/views/post/PostsView.vue'),
+      props: { type: 'ALL' }
+    },{
+      path: '/posts/following',
+      component: () => import('@/views/post/PostsView.vue'),
+      props: { type: 'FOLLOWING' }
     },{
       path: '/profile/:idUser',
       component: () => import('@/views/profile/ProfileView.vue')

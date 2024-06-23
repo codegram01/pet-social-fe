@@ -13,7 +13,10 @@ onBeforeMount(async ()=>{
 
 <template>
     <div v-if="user">
-        <b>{{ profile_id }} - {{ user.name }}</b>
+        <RouterLink :to="'/profile/' + user.id">
+            <b>{{ user.name }}</b>
+        </RouterLink>
+        
     </div>
 </template>
 
