@@ -35,6 +35,12 @@ const router = createRouter({
     },{
       path: '/posts/:idPost',
       component: () => import('@/views/post/PostDetailView.vue')
+    },{
+      path: '/chats',
+      component: () => import('@/views/ChatView.vue')
+    },{
+      path: '/chats/:idChat',
+      component: () => import('@/views/ChatView.vue')
     }
   ]
 })

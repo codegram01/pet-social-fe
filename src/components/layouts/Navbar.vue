@@ -6,7 +6,8 @@ import NavbarDropdown from "./NavbarDropdown.vue";
 <template>
     <div class="navbar">
         <RouterLink class="logo" to="/">Pet Social</RouterLink> -
-        <RouterLink to="/posts">Posts</RouterLink>
+        <RouterLink to="/posts">Posts</RouterLink> -
+        <RouterLink to="/chats">Chats</RouterLink>
      
         <div class="navbar-action">
             <NavbarDropdown />

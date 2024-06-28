@@ -143,7 +143,8 @@ const openListFollowings = () => {
                         <span v-else>Following</span>
                     </button>
                     -
-                    <button>Chat</button>
+
+                    <RouterLink :to="`/chats/${profile.id}`">Chats</RouterLink>
                 </div>
                 <br>
                 <div>
