@@ -1,5 +1,6 @@
 import { ref, computed } from "vue";
 import { auth_info_api } from "@/services/auth";
+import { init_store_logged_in } from "./index";
 
 export const token = ref("")
 
@@ -42,7 +43,10 @@ export const save_token_local = (tk) => {
 export const get_auth_info = async () => {
     try {
         const data = await auth_info_api()
+
         auth_user.value = data;
+
+        init_store_logged_in();
     } catch (error) {
         console.log(error)
     }

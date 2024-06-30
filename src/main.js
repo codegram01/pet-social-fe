@@ -16,8 +16,6 @@ const init_app = async () => {
 
     app.use(router)
 
-    
-    
     app.mount('#app')
 }
 

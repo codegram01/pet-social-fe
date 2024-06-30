@@ -1,7 +1,47 @@
 <script setup>
 import { message_send_api } from "@/services/chat"
-import { nextTick, onMounted, ref } from "vue";
+import { computed, nextTick, onMounted, ref, watch } from "vue";
 import AvatarMessage from "./AvatarMessage.vue";
+import { messageSocket } from "@/stores/socket";
+import ActionMess from "./ActionMess.vue"
+
+watch(() => messageSocket.value, ()=> {
+    console.log("------> on chat receive ", messageSocket.value)
+
+    switch(messageSocket.value.action) {
+        case "CONVERSATION_SEND_MESS":
+            if(messageSocket.value.data.conversation_id == props.conversation.id){
+                pushMessage(messageSocket.value.data)
+
+                if(isNearBottom()) {
+                    console.log("on scrollll")
+                    nextTick(()=> {
+                        scrollMess()
+                    })
+                }
+            }
+            break;
+        case "CONVERSATION_DELETE_MESS":
+            const conversationId = messageSocket.value.data.conversation_id
+            const messageId = messageSocket.value.data.message_id;
+
+            if(props.conversation.id == conversationId) {
+                deleteMess(messageId)
+            }
+            break;
+    }
+})
+
+const isNearBottom = () => {
+    const nearBottom = chatMessageElm.value.scrollTopMax - chatMessageElm.value.scrollTop
+
+    console.log("-------> is Near Bottom ", nearBottom)
+    if(nearBottom < 200) {
+        return true
+    }
+
+    return false
+}
 
 const props = defineProps(["conversation"])
 
@@ -21,7 +61,7 @@ const sendMessage = async () => {
         await message_send_api(props.conversation.id_guest, {
             content: content
         }).then(res => {
-            props.conversation.messages.push(res)
+            pushMessage(res)
 
             nextTick(()=> {
                 scrollMess()
@@ -29,6 +69,14 @@ const sendMessage = async () => {
         })
     } catch (error) {
         console.log(error)
+    }
+}
+
+const pushMessage = (message) => {
+    const idf = props.conversation.messages.findIndex(item => item.id == message.id)
+
+    if(idf < 0) {
+        props.conversation.messages.push(message)
     }
 }
 
@@ -42,6 +90,13 @@ const scrollMess = async () => {
 }
 
 const delay = ms => new Promise(res => setTimeout(res, ms));
+
+const deleteMess = (id) => {
+    const idf = props.conversation.messages.findIndex(item => item.id == id)
+    if(idf >= 0) {
+        props.conversation.messages.splice(idf, 1)
+    }
+}
 </script>
 
 <template>
@@ -55,6 +110,9 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
                 <div>
                     {{ message.content }}
                 </div>
+                <ActionMess :message="message" 
+                    @deleteMess="deleteMess"
+                />
             </div>
         </div>
         <div class="chat-send">
@@ -118,7 +176,7 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 }
 
 .message-div {
-
+    position: relative;
 }
 
 .message-div + .message-div {
