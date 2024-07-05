@@ -50,37 +50,55 @@ const updateProfile = async () => {
 </script>
 
 <template>
-    <div class="page">
-        <form class="form" @submit.prevent="updateProfile">
-            <h1 v-if="isCreatedProfile">Update profile</h1>
-            <h1 v-else>Create profile</h1>
+    <div>
+        <h1 v-if="isCreatedProfile">Update profile</h1>
+        <h1 v-else>Create profile</h1>
+        <div class="dev_page_content form_wrap">
+            <form @submit.prevent="updateProfile">
+                <div class="form-group">
+                    <label>Name</label>
+                <input class="form-control"  type="text" v-model="dataProfile.name">
+           
+                </div>
 
-            <label>Name</label>
-            <input type="text" v-model="dataProfile.name">
-            <div class="error"></div>
-
-            <label>Description</label>
-            <input type="text" v-model="dataProfile.description">
-            <div class="error"></div>
-
-            <label>Phone</label>
-            <input type="text" v-model="dataProfile.phone">
-            <div class="error"></div>
-
-            <label>Address</label>
-            <input type="text" v-model="dataProfile.address">
-            <div class="error"></div>
-
-            <label>Birthday</label>
-            <input type="date" v-model="dataProfile.birthday">
-            <div class="error"></div>
-
-            <label>Gender</label>
-            <input type="checkbox" v-model="dataProfile.gender">
-            <div class="error"></div>
-
-            <button type="submit">Update</button>
-        </form>
+                <div class="form-group">
+                    <label>Description</label>
+                    <input class="form-control"  type="text" v-model="dataProfile.description">
+                </div>
+             
+       
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input class="form-control"  type="text" v-model="dataProfile.phone">
+                </div>
+              
+        
+                <div class="form-group">
+                    <label>Address</label>
+                    <input class="form-control"  type="text" v-model="dataProfile.address">
+                </div>
+              
+            
+                <div class="form-group">
+                    <label>Birthday</label>
+                    <input class="form-control"  type="date" v-model="dataProfile.birthday">
+                </div>
+             
+           
+                <div class="checkbox">
+                    <label>
+                        <input v-model="dataProfile.gender" type="checkbox" name="remember" value="1"> Male
+                    </label>
+                </div>
+    
+                <br>
+                <div class="support_submit">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <RouterLink to="/" class="btn">Cancel</RouterLink>
+                </div>
+            </form>
+        </div>
+        
     </div>
 </template>
 

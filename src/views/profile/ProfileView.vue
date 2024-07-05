@@ -1,11 +1,11 @@
 <script setup>
 import { computed, onBeforeMount, ref, watch } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
-import { 
-    profile_update_api, 
-    profile_get_api, 
-    profile_follow_api, 
-    profile_follow_count_api 
+import {
+    profile_update_api,
+    profile_get_api,
+    profile_follow_api,
+    profile_follow_count_api
 } from "@/services/profile"
 import { auth_user } from '@/stores/auth';
 import { requireProfileCreated } from "@/modules/profile"
@@ -19,7 +19,7 @@ const idProfile = computed(() => {
     return route.params.idUser
 })
 
-watch(()=> idProfile.value,async ()=> {
+watch(() => idProfile.value, async () => {
     await getProfile();
 })
 
@@ -44,7 +44,7 @@ const getProfile = async () => {
             profile.value = res;
 
         })
-        
+
     } catch (error) {
         throw error
     }
@@ -70,12 +70,8 @@ const isMyProfile = computed(() => {
     return false
 })
 
-const toUpdate = ()=> {
-    router.push("/profile/update")
-}
-
 const follow = async () => {
-    if(requireProfileCreated()) {
+    if (requireProfileCreated()) {
         try {
             await profile_follow_api(idProfile.value).then(res => {
                 followCount.value.followers = res
@@ -86,10 +82,10 @@ const follow = async () => {
     }
 }
 
-const isFollowing = computed(()=> {
+const isFollowing = computed(() => {
     const indexFollow = followCount.value.followers.findIndex(item => item.follow_id == myProfileId.value)
 
-    if(indexFollow >= 0) {
+    if (indexFollow >= 0) {
         return true
     }
     return false
@@ -125,42 +121,39 @@ const openListFollowings = () => {
 </script>
 
 <template>
-    <div class="page">
+    <div>
+
         <div v-if="isDoneLoad">
-            <div class="profile" v-if="profile">
+            <div v-if="profile">
                 <h1>
                     {{ profile.name }}
-                </h1>
-                <div v-if="isMyProfile">
-                    <button @click="toUpdate">Update profile</button>
-                </div>
-                <div v-else>
-                    <button 
-                        @click="follow" 
-                        :class="{'btn-follow--highlight' : isFollowing}"
-                    >
-                        <span v-if="!isFollowing">Follow</span>
-                        <span v-else>Following</span>
-                    </button>
-                    -
 
-                    <RouterLink :to="`/chats/${profile.id}`">Chats</RouterLink>
-                </div>
-                <br>
-                <div>
-                    <span @click="openListFollowings">{{ followCount.followings.length }} Following</span>
-                    -
-                    <span @click="openListFollowers">{{ followCount.followers.length }} Followers</span>
-                </div>
-                <hr>
-                <div class="info">
+                    <small v-if="isMyProfile">
+                        <RouterLink to="/profile/update">Update</RouterLink>
+                    </small>
+                </h1>
+                <div class="dev_page_content">
+                    <p>
+                        {{ profile.description }}
+                    </p>
+                    <b>Phone: </b><span>{{ profile.phone }}</span>
+                    <hr>
                     <div>
-                        <b>Description:</b><span>{{ profile.description }}</span>
+                        <button @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
+                            <span v-if="!isFollowing">Follow</span>
+                            <span v-else>Following</span>
+                        </button>
+                        -
+
+                        <RouterLink :to="`/chats/${profile.id}`">Chats</RouterLink>
                     </div>
                     <br>
-                    <div v-if="isMyProfile">
-                        <b>Phone:</b><span>{{ profile.phone }}</span>
+                    <div>
+                        <span @click="openListFollowings">{{ followCount.followings.length }} Following</span>
+                        -
+                        <span @click="openListFollowers">{{ followCount.followers.length }} Followers</span>
                     </div>
+                    
                 </div>
             </div>
             <div v-else>
@@ -170,17 +163,8 @@ const openListFollowings = () => {
         <div v-else>
 
         </div>
-        <ListCardUser 
-            v-if="showListUser" 
-            :profile_ids="showListUserProfileIds" 
-            @close="closeListUser"
-        />
+        <ListCardUser v-if="showListUser" :profile_ids="showListUserProfileIds" @close="closeListUser" />
     </div>
 </template>
 
-<style scoped>
-.btn-follow--highlight {
-    background-color: red;
-}
-
-</style>
+<style scoped></style>

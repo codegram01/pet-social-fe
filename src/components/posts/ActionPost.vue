@@ -57,35 +57,31 @@ const postComment = async () => {
     <div>
         <div class="action-nav">
             <button @click="likePost" 
-                class="btn-like"
-                :class="{'btn-like--highlight': isLiked}"
+                class="btn"
+                :class="{'btn-primary': isLiked}"
             >
-                <span v-if="!isLiked">Like</span>
-                <span v-else>Liked</span>
-                | {{ likesLength }}</button>
+                <i v-if="!isLiked" class="bi bi-hand-thumbs-up"></i>
+                <i v-else class="bi bi-hand-thumbs-up-fill"></i>
+                {{ likesLength }}
+            </button>
 
-            <div>
-                <input v-model="inpComment" type="text" placeholder="Enter comment" class="input-comment">
-                <button @click="postComment">Comment</button>
-            </div>
+           <form class="form_search" @submit.prevent="postComment">
+                <input v-model="inpComment" type="text" placeholder="Enter comment" class="form-control input-comment">
+                <button type="submit" class="btn btn-primary btn-sm">Comment</button>
+           </form>
         </div>
+        <br>
         <div class="comments">
             <div v-for="comment of comments" :key="comment.id">
                 <CardUser :profile_id="comment.profile_id"/>
-                <div>{{ comment.content }}</div>
+                <p>{{ comment.content }}</p>
+                <br>
             </div>
         </div>
     </div>
 </template>
 
 <style scoped>
-.btn-like {
-    background-color: white;
-}
-
-.btn-like--highlight {
-    background-color: red;
-}
 
 .action-nav {
     display: flex;
@@ -93,6 +89,6 @@ const postComment = async () => {
 }
 
 .input-comment {
-    margin-left: 32px;
+    margin-left: 12px;
 }
 </style>

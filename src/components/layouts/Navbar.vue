@@ -1,32 +1,30 @@
 <script setup>
+import { RouterLink } from "vue-router";
 import NavbarDropdown from "./NavbarDropdown.vue";
 
 </script>
 
 <template>
-    <div class="navbar">
-        <RouterLink class="logo" to="/">Pet Social</RouterLink> -
-        <RouterLink to="/posts">Posts</RouterLink> -
-        <RouterLink to="/chats">Chats</RouterLink>
-     
-        <div class="navbar-action">
-            <NavbarDropdown />
-        </div>
+  <div class="tl_page_head navbar navbar-static-top navbar navbar-tg">
+    <div class="navbar-inner">
+      <div class="container clearfix">
+        <ul class="nav navbar-nav navbar-right">
+          <NavbarDropdown />
+        </ul>
+        <ul class="nav navbar-nav">
+          <li class="">
+            <RouterLink class="logo" to="/">Pet Social</RouterLink>
+          </li>
+          <li class="">
+            <RouterLink to="/posts">Posts</RouterLink>
+          </li>
+          <li class="">
+            <RouterLink to="/chats">Chats</RouterLink>
+          </li>
+        </ul>
+      </div>
     </div>
+  </div>
 </template>
 
-<style scoped>
-.navbar {
-  display: flex;
-  align-items: center;
-  border-bottom: 1px solid black;
-  background: rgb(199, 199, 242);
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.navbar-action {
-  margin-left: auto;
-}
-</style>
+<style scoped></style>

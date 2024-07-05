@@ -29,32 +29,43 @@ const register = async () => {
 </script>
 
 <template>
-    <div class="page">
-        <form class="form" @submit.prevent="register">
-            <h2>Register</h2>
+    <div>
+        <h1>Register</h1>
+        <div class="dev_page_content">
+            <div class="form_wrap">
+                <form @submit.prevent="register">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" v-model="dataRegister.email" placeholder="Enter email">
+                    </div>
 
-            <label>Email</label>
-            <input type="email" v-model="dataRegister.email">
-            <div class="error">{{ err_register }}</div>
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" v-model="dataRegister.password"
+                            placeholder="Enter password">
+                    </div>
 
-            <label>Password</label>
-            <input type="password" v-model="dataRegister.password">
-            <div class="error"></div>
 
-            <label>Confirm Password</label>
-            <input type="password" v-model="dataRegister.confirm_password">
-            <div class="error"></div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" class="form-control" v-model="dataRegister.confirm_password"
+                            placeholder="Enter confirm password">
+                    </div>
 
-            <button type="submit">Register</button>
-        </form>
+                    <!-- <div class="error">{{ err_register }}</div> -->
+                    <div class="support_submit">
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </div>
+
+                    <div class="help-block">
+                        Have account
+                        <RouterLink to="/login">Login</RouterLink>
+                    </div>
+                </form>
+            </div>
+
+        </div>
     </div>
 </template>
 
-<style scoped>
-.page {
-    padding-top: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-</style>
+<style scoped></style>

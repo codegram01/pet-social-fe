@@ -11,13 +11,18 @@ const router = createRouter({
     {
       path: '/about',
       component: () => import('@/views/AboutView.vue')
-    },{
+    }
+    
+    // Auth
+    ,{
       path: '/login',
       component: () => import('@/views/LoginView.vue')
     },{
       path: '/register',
       component: () => import('@/views/RegisterView.vue')
     }
+
+    // posts
     ,{
       path: '/posts',
       component: () => import('@/views/post/PostsView.vue'),
@@ -27,15 +32,24 @@ const router = createRouter({
       component: () => import('@/views/post/PostsView.vue'),
       props: { type: 'FOLLOWING' }
     },{
+      path: '/posts/create',
+      component: () => import('@/views/post/PostCreateView.vue'),
+    },{
+      path: '/posts/:idPost',
+      component: () => import('@/views/post/PostDetailView.vue')
+    }
+    
+    // profile
+    ,{
       path: '/profile/:idUser',
       component: () => import('@/views/profile/ProfileView.vue')
     },{
       path: '/profile/update',
       component: () => import('@/views/profile/UpdateProfileView.vue')
-    },{
-      path: '/posts/:idPost',
-      component: () => import('@/views/post/PostDetailView.vue')
-    },{
+    }
+    
+    // Chats
+    ,{
       path: '/chats',
       component: () => import('@/views/ChatView.vue')
     },{

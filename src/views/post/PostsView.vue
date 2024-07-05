@@ -1,7 +1,6 @@
 <script setup>
 import {ref, onBeforeMount, computed, watch } from "vue";
 import { post_list_api, post_list_follow_api } from "@/services/post";
-import CreatePost from "@/components/posts/CreatePost.vue";
 import CardUser from "@/components/profile/CardUser.vue";
 
 const props = defineProps(["type"])
@@ -27,22 +26,6 @@ watch(() => props.type , async () => {
     await getPosts()
 })
 
-const showPopupCreate = ref(false)
-const openPopupCreate = () => {
-    showPopupCreate.value = true
-}
-const closePopupCreate = () => {
-    showPopupCreate.value = false
-}
-
-const createNewPost = (post) => {
-    posts.value.unshift(post)
-
-    closePopupCreate();
-
-    alert("Create Post success")
-}
-
 const typePostMess = computed(() => {
     if(props.type == "ALL") {
         return "All Posts"
@@ -54,44 +37,49 @@ const typePostMess = computed(() => {
 </script>
 
 <template>
-    <div class="page">
-        <div class="post-nav">
-            <h1>{{ typePostMess }}</h1>
-            <button class="post-create-btn" @click="openPopupCreate">Create Post</button>
-        </div>
-        <div>
-            <RouterLink to="/posts">All</RouterLink> -
+    <div>
+        <h1 v-if="type == 'ALL'">
+            All -
             <RouterLink to="/posts/following">Following</RouterLink>
-        </div>
-        <hr>
-        <div v-for="post of posts" :key="post.id">
-            <RouterLink :to="'/posts/' + post.id">
-                <h2>{{ post.title }}</h2>
-            </RouterLink>
-            <div>
-                {{ post.content }}
-            </div>
-            <CardUser :profile_id="post.profile_id" />
-            <hr>
-        </div>
+        </h1>
+        <h1 v-else>
+            <RouterLink to="/posts">All</RouterLink> -
+            Following
+        </h1>
+        <div class="dev_page_content">
+            <form class="form_search" action="/products" method="get">
+                <input placeholder="Search Posts" id="search" class="form-control" type="search" name="q" />
+                <button type="submit" class="btn btn-primary btn-sm">Search</button>
 
-        <CreatePost 
-            v-if="showPopupCreate" 
-            @close="closePopupCreate"
-            @createPost="createNewPost"
-            />
+                <RouterLink to="/posts/create" class="btn btn-primary btn-create">Create</RouterLink>
+            </form>
+            <div v-for="post of posts" :key="post.id">
+                <RouterLink :to="'/posts/' + post.id">
+                    <h2>{{ post.title }}</h2>
+                </RouterLink>
+                <CardUser :profile_id="post.profile_id" />
+                <div class="post-content">
+                    {{ post.content }}
+                </div>
+                <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
+                <hr>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.post-nav {
-    display: flex;
-    align-items: center;
-    background-color: aqua;
+.btn-create {
+    margin-left: auto;
+    border-radius: 4px;
 }
 
-.post-create-btn {
-    margin-left: auto;
-    height: 32px;
+.post-img {
+    max-width: 400px;
+    max-height: 250px;
+}
+
+.post-content {
+    margin-top: 12px;
 }
 </style>

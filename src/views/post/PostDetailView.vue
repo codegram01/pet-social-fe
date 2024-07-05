@@ -39,12 +39,17 @@ const updateLikes = (likes) => {
 </script>
 
 <template>
-    <div class="page">
+    <div>
         <div v-if="isDoneLoad">
             <div v-if="post">
                 <h1>{{ post.title }}</h1>
                 <CardUser :profile_id="post.profile_id" />
-                <h2>{{ post.content }}</h2>
+                <br>
+                <div class="dev_page_content">
+                    <p>{{ post.content }}</p>
+                    <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
+                </div>
+                
                 <hr>
                 <ActionPost 
                     :idPost="post.id"
@@ -59,3 +64,9 @@ const updateLikes = (likes) => {
         </div>
     </div>
 </template>
+
+<style scoped>
+.post-img {
+    max-width: 100%;
+}
+</style>

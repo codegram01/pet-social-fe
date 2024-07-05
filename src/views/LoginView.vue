@@ -26,29 +26,34 @@ const login = async () => {
 </script>
 
 <template>
-    <div class="page">
-        <form class="form" @submit.prevent="login">
-            <h2>Login</h2>
+    <div>
+        <h1>Login</h1>
+        <div class="dev_page_content">
+            <div class="form_wrap">
+                <form @submit.prevent="login">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" v-model="dataLogin.email" placeholder="Enter email">
+                    </div>
+                   
+                    <div class="form-group">
+                        <label>Password</label>
+                        <input type="password" class="form-control" v-model="dataLogin.password" placeholder="Enter password">
+                    </div>
 
-            <label>Email</label>
-            <input type="email" v-model="dataLogin.email">
-            <div class="error"></div>
+                    <div class="support_submit">
+                        <button type="submit" class="btn btn-primary">Login</button>
+                    </div>
+                </form>
 
-            <label>Password</label>
-            <input type="password" v-model="dataLogin.password">
-            <div class="error"></div>
-
-            <button type="submit">Login</button>
-        </form>
+                <div class="help-block">
+                    Not have account
+                    <RouterLink to="/register">Register</RouterLink>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
-.page {
-    padding-top: 42px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
 </style>

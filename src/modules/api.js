@@ -31,3 +31,26 @@ export const api = async (method, url, data) => {
         throw error.error
     }
 }
+
+export const apiFormData = async (method, url, data) => {
+    const urlApi = "http://localhost:8000/api" + url;
+
+    try {
+        return await fetch(urlApi, {
+            method: method,
+            mode: "cors",
+            body: data,
+        }).then(async res => {
+            const data = await res.json()
+
+            if(res.ok){
+                return data;   
+            }else {
+                throw data;
+            }
+        })
+    } catch (error) {
+        console.log("==========> on api error ", error)
+        throw error.error
+    }
+}

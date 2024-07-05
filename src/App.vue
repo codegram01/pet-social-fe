@@ -5,34 +5,18 @@ import Navbar from "@/components/layouts/Navbar.vue";
 
 <template>
   <div class="app">
-    <div class="navbar">
-      <Navbar />
-    </div>
-    <div class="page-ctn">
-      <RouterView />
+    <Navbar />
+    <div class="container clearfix tl_page_container">
+      <div class="tl_page">
+        <div id="dev_page_content_wrap" class=" ">
+          <RouterView />
+        </div>
+      </div>
+      
     </div>
   </div>
 </template>
 
 <style scoped>
-.app {
-  position: absolute;
-  width: 100%;
-  height: 100%;
-}
-
-.navbar {
-  height: 72px;
-  width: 100%;
-  position: absolute;
-  top: 0px;
-}
-
-.page-ctn {
-  position: absolute;
-  width: 100%;
-  height: calc(100% - 72px);
-  bottom: 0px;
-}
 
 </style>
