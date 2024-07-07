@@ -42,10 +42,24 @@ const router = createRouter({
     // profile
     ,{
       path: '/profile/:idUser',
-      component: () => import('@/views/profile/ProfileView.vue')
+      component: () => import('@/views/profile/ProfileView.vue'),
+      props: { type: 'PROFILE' }
+    },{
+      path: '/profile/pet/:idUser',
+      component: () => import('@/views/profile/ProfileView.vue'),
+      props: { type: 'PET' }
     },{
       path: '/profile/update',
-      component: () => import('@/views/profile/UpdateProfileView.vue')
+      component: () => import('@/views/profile/UpdateProfileView.vue'),
+      props: { type: 'PROFILE' }
+    },{
+      path: '/profile/pet/create',
+      component: () => import('@/views/profile/UpdateProfileView.vue'),
+      props: { type: 'PET' }
+    },{
+      path: '/profile/pet/:idPet/update',
+      component: () => import('@/views/profile/UpdateProfileView.vue'),
+      props: { type: 'PET_UPDATE' }
     }
     
     // Chats

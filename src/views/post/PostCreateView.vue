@@ -1,18 +1,34 @@
 <script setup>
-import { ref } from "vue"
+import { onBeforeMount, ref } from "vue"
 import { post_create_api } from "@/services/post"
 import { files_upload_api } from "@/services/file"
+import { my_pet_api } from "@/services/pet"
 import { useRouter } from "vue-router";
 const emits = defineEmits(["close", "createPost"]);
+
+const pets = ref([])
+onBeforeMount(async ()=>{
+    await my_pet_api().then(res => {
+        pets.value = res
+    })
+})
 
 const post = ref({
     title: "",
     content: "",
-    files: []
+    files: [],
+    pets: []
 })
 const router = useRouter()
 
 const createPost = async () => {
+    for(const pet of pets.value) {
+        if(pet._chose) {
+            post.value.pets.push({
+                id: pet.id
+            })
+        }
+    }
     try {
         await post_create_api(post.value).then(res => {
             router.push("/posts")
@@ -85,6 +101,15 @@ const removeFile = (index) => {
                             </div>
                             <img :src="$loadFile(file.link)" class="post-img">
                         </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Pets</label>
+                    <div v-for="pet of pets">
+                        <label>
+                            <input type="checkbox" v-model="pet._chose"> {{ pet.name }}
+                        </label>
                     </div>
                 </div>
                 

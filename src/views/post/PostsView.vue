@@ -1,7 +1,7 @@
 <script setup>
 import {ref, onBeforeMount, computed, watch } from "vue";
 import { post_list_api, post_list_follow_api } from "@/services/post";
-import CardUser from "@/components/profile/CardUser.vue";
+import ItemPost from "@/components/posts/ItemPost.vue"
 
 const props = defineProps(["type"])
 
@@ -54,15 +54,7 @@ const typePostMess = computed(() => {
                 <RouterLink to="/posts/create" class="btn btn-primary btn-create">Create</RouterLink>
             </form>
             <div v-for="post of posts" :key="post.id">
-                <RouterLink :to="'/posts/' + post.id">
-                    <h2>{{ post.title }}</h2>
-                </RouterLink>
-                <CardUser :profile_id="post.profile_id" />
-                <div class="post-content">
-                    {{ post.content }}
-                </div>
-                <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
-                <hr>
+                <ItemPost :post="post"/>
             </div>
         </div>
     </div>
@@ -72,14 +64,5 @@ const typePostMess = computed(() => {
 .btn-create {
     margin-left: auto;
     border-radius: 4px;
-}
-
-.post-img {
-    max-width: 400px;
-    max-height: 250px;
-}
-
-.post-content {
-    margin-top: 12px;
 }
 </style>

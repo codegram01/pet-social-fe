@@ -2,7 +2,6 @@
 import CardUser from "./CardUser.vue"
 const props = defineProps(["profile_ids"])
 const emits = defineEmits(["close"])
-
 </script>
 
 <template>
