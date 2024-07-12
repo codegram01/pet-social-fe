@@ -13,6 +13,8 @@ const idPet = computed(()=> {
     return route.params.idPet
 })
 
+// avatar 
+
 onBeforeMount(async ()=> {
     console.log(props.type)
     if(props.type == "PROFILE") {
