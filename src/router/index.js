@@ -70,6 +70,11 @@ const router = createRouter({
       path: '/chats/:idChat',
       component: () => import('@/views/ChatView.vue')
     }
+
+    ,{
+      path: '/search',
+      component: () => import('@/views/SearchView.vue')
+    }
   ]
 })
 
