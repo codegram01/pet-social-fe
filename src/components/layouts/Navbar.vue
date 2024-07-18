@@ -33,85 +33,52 @@ onMounted(()=> {
 </script>
 
 <template>
-  <v-div>
+  <div>
+    <v-toolbar color="light-blue-lighten-5">
+      <v-container>
+        <v-row>
+          <v-col cols="12" sm="4" class="d-flex align-center">
+            <a href="/">
+              <img
+                src="@/assets/pet_logo.svg"
+                alt="logo"
+                height="50px"
+              />
+            </a>
 
-    <!-- <v-row> -->
-      <v-toolbar color="light-blue-lighten-5">
-        <!-- <v-col cols="12" sm="6" md="4"> -->
-          <a  href="/">
-            <img
-              src="@/assets/pet_logo.svg"
-              alt="logo"
-              height="50px"
+            <v-text-field
+              v-model="keySearch"
+              label="Search"
+              prepend-inner-icon="mdi-magnify"
+              variant="solo"
+              hide-details
+              single-line
+              density="compact"
+              @keyup.enter="search"
             />
-          </a>
+          </v-col>
 
-          <v-text-field
-            v-model="keySearch"
-            label="Search"
-            prepend-inner-icon="mdi-magnify"
-            variant="solo"
-            hide-details
-            single-line
-            density="compact"
-            @keyup.enter="search"
-          />
-        <!-- </v-col> -->
-       
-
-        <v-btn>
-          <RouterLink class="logo" to="/">Pet Social</RouterLink>
-        </v-btn>
-
-        <v-btn>
-          <RouterLink to="/posts">Posts</RouterLink>
-        </v-btn>
-
-        <v-btn>
-          <RouterLink to="/chats">Chats</RouterLink>
-        </v-btn>
-
-        <v-col cols="12" sm="6" md="4">
-         
-        </v-col>
-        
-        <v-col cols="12" sm="6" md="4" class="d-flex justify-end">
-          <div class="d-flex justify-end">
+          <v-col cols="12" sm="4" class="d-flex align-center justify-center">
             <v-btn>
-              <NavbarDropdown />
+              <RouterLink class="logo" to="/">Pet Social</RouterLink>
             </v-btn>
-          </div>
-        
-        </v-col>
-      
-      </v-toolbar>
-    <!-- </v-row> -->
 
-   
-   
-  </v-div>
+            <v-btn>
+              <RouterLink to="/posts">Posts</RouterLink>
+            </v-btn>
 
-  <!-- <div class="tl_page_head navbar navbar-static-top navbar navbar-tg">
-    <div class="navbar-inner">
-      <div class="container clearfix">
-        <ul class="nav navbar-nav navbar-right">
-          <NavbarDropdown />
-        </ul>
-        <ul class="nav navbar-nav">
-          <li class="">
-            <RouterLink class="logo" to="/">Pet Social</RouterLink>
-          </li>
-          <li class="">
-            <RouterLink to="/posts">Posts</RouterLink>
-          </li>
-          <li class="">
-            <RouterLink to="/chats">Chats</RouterLink>
-          </li>
-        </ul>
-        <input class="hello" type="text"  @keyup.enter="search" v-model="keySearch">
-      </div>
-    </div>
-  </div> -->
+            <v-btn>
+              <RouterLink to="/chats">Chats</RouterLink>
+            </v-btn>
+          </v-col>
+
+          <v-col cols="12" sm="4" class="d-flex align-center justify-end">
+            <NavbarDropdown />
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-toolbar>
+  </div>
 </template>
 
 <style scoped></style>

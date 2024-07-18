@@ -15,27 +15,61 @@ const switchDropdown = () => {
 </script>
 
 <template>
-    <li class="dropdown" v-if="!isLoggedIn">
-        <RouterLink to="/login">Login</RouterLink>
-    </li>
-    <li v-else class="dropdown">
-        <a href="#" @click="switchDropdown">
-            <i class="bi bi-person-fill"></i>
-        </a>
-        <div class="hover-popup" v-if="showDropdown">
-            <!-- <div class="overlay"></div> -->
-            <div class="popup" @click="closeDropdown">
-                <span class="popup-tab">{{ auth_user.email }}</span>
-                <RouterLink v-if="!isCreatedProfile" class="popup-tab" to="/profile/update">Create Profile</RouterLink>
-                <RouterLink v-else class="popup-tab" :to="'/profile/' + auth_user.profile_id">MyProfile</RouterLink>
-                <span class="popup-tab" @click="logout">Logout</span>
-            </div>
-        </div>
-    </li>
+    <div v-if="!isLoggedIn">
+        <v-btn variant="text" rounded>
+            <RouterLink to="/login">Login</RouterLink>
+        </v-btn>
+    </div>
+    <div v-else>
+        <v-menu
+            min-width="200px"
+            rounded
+        >
+            <template v-slot:activator="{ props }">
+                <v-btn
+                    icon
+                    v-bind="props"
+                >
+                    <v-avatar
+                        size="large"
+                    >
+                        <v-icon icon="mdi-account-circle"></v-icon>
+                    </v-avatar>
+                </v-btn>
+            </template>
+            <v-card>
+                <v-card-text>
+                    <div class="mx-auto text-center">
+                        <v-avatar
+                            color="brown"
+                        >
+                            <v-icon icon="mdi-account-circle"></v-icon>
+                        </v-avatar>
+                        <p class="text-caption mt-1">
+                            {{ auth_user.email }}
+                        </p>
+                        <v-divider class="my-2"></v-divider>
+                        <v-btn variant="text" rounded>
+                            <RouterLink v-if="!isCreatedProfile" to="/profile/update">Create Profile</RouterLink>
+                            <RouterLink v-else :to="'/profile/' + auth_user.profile_id">MyProfile</RouterLink>
+                        </v-btn>
+                        <v-divider class="my-2"></v-divider>
+                        <v-btn
+                            variant="text"
+                            rounded
+                            @click="logout"
+                        >
+                            Logout
+                        </v-btn>
+                    </div>
+                </v-card-text>
+            </v-card>
+        </v-menu>
+    </div>
 </template>
 
 <style scoped>
-.hover-email {
+/* .hover-email {
     cursor: pointer;
 }
 
@@ -66,5 +100,5 @@ const switchDropdown = () => {
     left: 0px;
     top: 0px;
     z-index: 10;
-}
+} */
 </style>

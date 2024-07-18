@@ -30,41 +30,79 @@ const register = async () => {
 
 <template>
     <div>
-        <h1>Register</h1>
-        <div class="dev_page_content">
-            <div class="form_wrap">
-                <form @submit.prevent="register">
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" class="form-control" v-model="dataRegister.email" placeholder="Enter email">
+        <h1 class="text-center headline py-5">
+            Register
+        </h1>
+
+        <v-card
+            class="text-center mx-auto"
+            max-width="500px"
+        >
+            <v-icon
+                size="120px"
+                class="my-5"
+            >
+                mdi-account-circle
+            </v-icon>
+            <v-col
+                cols="11"
+                class="mx-auto"
+            >
+                <v-form
+                    ref="formLogin"
+                    class="text-left"
+                >
+                    <v-text-field
+                        v-model="dataRegister.email"
+                        label="Email"
+                        type="email"
+                        append-inner-icon="mdi-email"
+                        color="primary"
+                        variant="solo"             
+                        autofocus
+                        validate-on-blur
+                    />
+                    <v-text-field
+                        v-model="dataRegister.password"
+                        label="Password"
+                        type="password"
+                        append-inner-icon="mdi-lock"
+                        color="primary"
+                        variant="solo"
+                        class="mb-3"
+                        hide-details="auto"              
+                        validate-on-blur
+                    />
+
+                    <v-text-field
+                        v-model="dataRegister.confirm_password"
+                        label="Confirm Password"
+                        type="password"
+                        append-inner-icon="mdi-lock"
+                        color="primary"
+                        variant="solo"
+                        class="mb-3"
+                        hide-details="auto"              
+                        validate-on-blur
+                        @keyup.enter="register(dataRegister)"
+                    />
+
+                    <div class="text-right">
+                        <v-btn
+                            @click="register(dataRegister)"
+                            color="primary"
+                            class="text-white mt-3"
+                        >
+                            Register
+                        </v-btn>
+                        <div class="help-block">
+                            Not have account
+                            <RouterLink to="/login">Login</RouterLink>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label>Password</label>
-                        <input type="password" class="form-control" v-model="dataRegister.password"
-                            placeholder="Enter password">
-                    </div>
-
-
-                    <div class="form-group">
-                        <label>Confirm Password</label>
-                        <input type="password" class="form-control" v-model="dataRegister.confirm_password"
-                            placeholder="Enter confirm password">
-                    </div>
-
-                    <!-- <div class="error">{{ err_register }}</div> -->
-                    <div class="support_submit">
-                        <button type="submit" class="btn btn-primary">Register</button>
-                    </div>
-
-                    <div class="help-block">
-                        Have account
-                        <RouterLink to="/login">Login</RouterLink>
-                    </div>
-                </form>
-            </div>
-
-        </div>
+                </v-form>
+            </v-col>
+        </v-card>
     </div>
 </template>
 

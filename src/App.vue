@@ -4,7 +4,7 @@ import Navbar from "@/components/layouts/Navbar.vue";
 </script>
 
 <template>
-  <div class="app">
+   <v-app class="bg-background">
     <Navbar />
     <div class="container clearfix tl_page_container">
       <div class="tl_page">
@@ -14,7 +14,7 @@ import Navbar from "@/components/layouts/Navbar.vue";
       </div>
       
     </div>
-  </div>
+  </v-app>
 </template>
 
 <style scoped>
