@@ -4,6 +4,7 @@ import { post_create_api } from "@/services/post"
 import { files_upload_api } from "@/services/file"
 import { my_pet_api } from "@/services/pet"
 import { useRouter } from "vue-router";
+import { g_validation } from "@/modules/validation";
 const emits = defineEmits(["close", "createPost"]);
 
 const pets = ref([])
@@ -21,7 +22,40 @@ const post = ref({
 })
 const router = useRouter()
 
+const errTitle = ref("");
+const checkTitle = () => {
+	errTitle.value = g_validation({
+        data: post.value.title,
+		label: "Title",
+        max: 200
+	});
+	if(errTitle.value){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+const errContent = ref("");
+const checkContent = () => {
+	errContent.value = g_validation({
+        data: post.value.content,
+		label: "Content",
+        max: 1000,
+	});
+	if(errContent.value){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
 const createPost = async () => {
+    if(!checkTitle() || !checkContent()) {
+        return
+    }
+
     for(const pet of pets.value) {
         if(pet._chose) {
             post.value.pets.push({
@@ -79,13 +113,14 @@ const removeFile = (index) => {
             <form @submit.prevent="createPost">
                 <div class="form-group">
                     <label> Title</label>
-                    <input class="form-control" type="text" v-model="post.title" placeholder="Enter title">
-             
+                    <input class="form-control" type="text" v-model="post.title" placeholder="Enter title" @input="checkTitle">
+                    <div>{{ errTitle }}</div>
                 </div>
                 
                 <div class="form-group">
                     <label> Content</label>
-                   <input class="form-control" type="text" v-model="post.content" placeholder="Enter content">
+                   <input class="form-control" type="text" v-model="post.content" placeholder="Enter content" @input="checkContent">
+                   <div>{{ errContent }}</div>
                 </div>
 
                 <div class="form-group">

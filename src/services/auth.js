@@ -14,7 +14,7 @@ export const auth_register_api = async (data) => {
     try {
         return await api("POST", "/auth/register", data)
     } catch (error) {
-        // process_error(error)
+        process_error(error)
         throw error
     }
 }

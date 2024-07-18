@@ -3,6 +3,7 @@ import { ref } from "vue"
 import { useRouter } from "vue-router"
 import { token } from "@/stores/auth";
 import { auth_register_api } from "@/services/auth";
+import { openPopup } from "@/stores/popup";
 
 const router = useRouter()
 
@@ -15,16 +16,30 @@ const dataRegister = ref({
 const err_register = ref("");
 
 const register = async () => {
-    console.log(token.value)
     try {
         await auth_register_api(dataRegister.value)
 
-        alert("Register success")
-
-        router.push("/login")
+        openPopup({
+            title: "Register success",
+            content: "Go to login page and login",
+            close: ()=> {
+                router.push("/login")
+            },
+            
+        })
     } catch (error) {
         err_register.value = error
     }
+}
+
+const confirmRegister = () => {
+    openPopup({
+        title: "Confirm",
+        content: "Are you sure want to create account",
+        confirm: ()=> {
+            register();
+        }
+    })
 }
 </script>
 
@@ -84,12 +99,12 @@ const register = async () => {
                         class="mb-3"
                         hide-details="auto"              
                         validate-on-blur
-                        @keyup.enter="register(dataRegister)"
+                        @keyup.enter="confirmRegister"
                     />
 
                     <div class="text-right">
                         <v-btn
-                            @click="register(dataRegister)"
+                            @click="confirmRegister"
                             color="primary"
                             class="text-white mt-3"
                         >

@@ -1,5 +1,7 @@
 <script setup>
 import Navbar from "@/components/layouts/Navbar.vue";
+import Noti from "@/components/common/Noti.vue";
+import Confirm from "@/components/common/Confirm.vue";
 
 </script>
 
@@ -12,7 +14,8 @@ import Navbar from "@/components/layouts/Navbar.vue";
           <RouterView />
         </div>
       </div>
-      
+      <Noti/>
+      <Confirm/>
     </div>
   </v-app>
 </template>

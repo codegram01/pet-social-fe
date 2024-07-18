@@ -1,4 +1,8 @@
+import { setNotiMess } from "@/stores/noti"
 
 export const process_error = (e) => {
-    alert(e)   
+    setNotiMess({
+        mess: e,
+        error: true
+    })
 }

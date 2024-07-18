@@ -3,6 +3,8 @@ import { ref } from "vue";
 import { save_token_local, get_auth_info } from "@/stores/auth";
 import { auth_login_api } from "@/services/auth"
 import { useRouter } from "vue-router";
+import { g_validation } from "@/modules/validation";
+import { setNotiMess } from "@/stores/noti";
 
 const router = useRouter();
 
@@ -11,15 +13,50 @@ const dataLogin = ref({
     password: ""
 })
 
-const login = async () => {
-    try {
-        const data = await auth_login_api(dataLogin.value)
-        save_token_local(data.token)
-        await get_auth_info()
+const errEmail = ref("");
+const checkEmail = () => {
+	errEmail.value = g_validation({
+        data: dataLogin.value.email,
+		label: "Email",
+		type: "EMAIL"
+	});
+	if(errEmail.value){
+		return false;
+	}else{
+		return true;
+	}
+}
 
-        router.push("/")
-    } catch (error) {
-        console.log('on login error ', error)
+const errPass = ref("")
+const checkPass = () => {
+    errPass.value = g_validation({
+        data: dataLogin.value.password,
+		label: "Password",
+		type: "PASSWORD"
+	});
+	if(errPass.value){
+		return false;
+	}else{
+		return true;
+	}
+}
+
+
+const login = async () => {
+    if(checkEmail() && checkPass()){
+        try {
+            const data = await auth_login_api(dataLogin.value)
+            save_token_local(data.token)
+            await get_auth_info()
+
+            setNotiMess({
+                mess: "Login success",
+            })
+
+            router.push("/")
+        } catch (error) {
+            console.log('on login error ', error)
+        }
     }
 }
 
@@ -58,7 +95,10 @@ const login = async () => {
                         variant="solo"             
                         autofocus
                         validate-on-blur
+                        @input="checkEmail"
                     />
+                    <!-- <input type="text" v-model="dataLogin.email" @input="checkEmail"> -->
+                    <div>{{ errEmail }}</div>
                     <v-text-field
                         v-model="dataLogin.password"
                         label="Password"
@@ -70,7 +110,9 @@ const login = async () => {
                         hide-details="auto"              
                         validate-on-blur
                         @keyup.enter="login(dataLogin)"
+
                     />
+                    <div class="error">{{ errPass }}</div>
 
                     <div class="text-right">
                         <v-btn
