@@ -1,6 +1,6 @@
 <script setup>
 import { conversations_get_api, conversation_mount_api} from "@/services/chat"
-import { computed, onBeforeMount, ref, watch } from "vue";
+import { computed, nextTick, onBeforeMount, ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import ChatDetail from "@/components/chats/ChatDetail.vue"
 
@@ -22,12 +22,16 @@ const mountConversation = async () => {
     }
     try {
         await conversation_mount_api(idConversation.value).then(res => {
-            conversationDetail.value = res;
+            conversationDetail.value = null
+            nextTick(()=> {
+                conversationDetail.value = res;
 
-            const idf = conversations.value.findIndex(item => item.id == conversationDetail.value.id)
-            if(idf < 0) {
-                conversations.value.unshift(conversationDetail.value)
-            }
+                const idf = conversations.value.findIndex(item => item.id == conversationDetail.value.id)
+                if(idf < 0) {
+                    conversations.value.unshift(conversationDetail.value)
+                }
+            })
+            
         })        
     } catch (error) {
         console.log(error)

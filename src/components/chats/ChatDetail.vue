@@ -1,9 +1,15 @@
 <script setup>
 import { message_send_api, message_update_api } from "@/services/chat"
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onBeforeMount, onMounted, ref, watch } from "vue";
 import AvatarMessage from "./AvatarMessage.vue";
 import { messageSocket } from "@/stores/socket";
 import ActionMess from "./ActionMess.vue"
+
+onBeforeMount(()=> {
+    console.log("--------------> onbeforemount chat detail")
+})
+
+
 
 watch(() => messageSocket.value, ()=> {
     console.log("------> on chat receive ", messageSocket.value)
@@ -107,7 +113,10 @@ const cancelEditMess = () => {
     messageNeedEdit.value = null;
 }
 
-const saveEditMess = async (messOrg) => { 
+const saveEditMess = async () => { 
+    const indexMess = props.conversation.messages.findIndex(mess => mess.id == messageNeedEdit.value.id)
+    const messOrg = props.conversation.messages[indexMess]
+
     try {
         await message_update_api(messOrg.id, {
             content: messageNeedEdit.value.content
@@ -130,12 +139,7 @@ const saveEditMess = async (messOrg) => {
         <div class="chat-message" ref="chatMessageElm" id="chatMessageElm">
             <div class="message-div" v-for="message of conversation.messages" :key="message.id">
                 <AvatarMessage :profile_id="message.profile_id" />
-                <div v-if="messageNeedEdit && messageNeedEdit.id == message.id">
-                    <input type="text" v-model="messageNeedEdit.content">
-                    <button @click="cancelEditMess">Cancel</button>
-                    <button @click="saveEditMess(message)">Save</button>
-                </div>
-                <div v-else>
+                <div>
                     {{ message.content }}
                 </div>
                 
@@ -151,6 +155,14 @@ const saveEditMess = async (messOrg) => {
                 placeholder="Enter message..." 
                 v-model="contentMessage"
                 v-on:keyup.enter="sendMessage"
+                v-if="!messageNeedEdit"
+            ></textarea>
+            <textarea 
+                class="input-send" 
+                placeholder="Enter message..." 
+                v-model="messageNeedEdit.content"
+                v-on:keyup.enter="saveEditMess"
+                v-else
             ></textarea>
         </div>
     </div>
