@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { message_delete_api } from '@/services/chat';
 
 const props = defineProps(["message"])
-const emits = defineEmits(["deleteMess"])
+const emits = defineEmits(["deleteMess", "openEditMess"])
 
 const isMyMess = computed(() => {
     if (auth_user.value.profile_id == props.message.profile_id) {
@@ -23,10 +23,15 @@ const deleteMess = async () => {
         console.log(error)
     }
 }
+
+const openEditMess = () => {
+    emits("openEditMess", props.message)
+}
 </script>
 
 <template>
     <div class="action">
+        <button v-if="isMyMess" @click="openEditMess">Edit</button> |
         <button v-if="isMyMess" @click="deleteMess">Delete</button>
     </div>
 </template>
@@ -37,6 +42,8 @@ const deleteMess = async () => {
     right: 0;
     top: 0;
     display: none;
+    background-color: white;
+    border: 1px solid black;
 }
 
 .message-div:hover .action{

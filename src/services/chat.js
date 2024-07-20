@@ -37,3 +37,12 @@ export const message_delete_api = async (idMess) => {
     }
 }
 
+export const message_update_api = async (idMess, data) => {
+    try {
+        return await api("PATCH", `/conversations/message/${idMess}`, data)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+

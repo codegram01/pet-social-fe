@@ -1,5 +1,5 @@
 <script setup>
-import { message_send_api } from "@/services/chat"
+import { message_send_api, message_update_api } from "@/services/chat"
 import { computed, nextTick, onMounted, ref, watch } from "vue";
 import AvatarMessage from "./AvatarMessage.vue";
 import { messageSocket } from "@/stores/socket";
@@ -97,6 +97,29 @@ const deleteMess = (id) => {
         props.conversation.messages.splice(idf, 1)
     }
 }
+
+const messageNeedEdit = ref(null)
+const openEditMess = (messageEdit) => {
+    messageNeedEdit.value = JSON.parse(JSON.stringify(messageEdit))
+}
+
+const cancelEditMess = () => {
+    messageNeedEdit.value = null;
+}
+
+const saveEditMess = async (messOrg) => { 
+    try {
+        await message_update_api(messOrg.id, {
+            content: messageNeedEdit.value.content
+        }).then(res => {
+            messOrg.content = res.content
+            cancelEditMess()
+        })
+    } catch (error) {
+        console.log(error)
+    }
+    
+}
 </script>
 
 <template>
@@ -107,11 +130,18 @@ const deleteMess = (id) => {
         <div class="chat-message" ref="chatMessageElm" id="chatMessageElm">
             <div class="message-div" v-for="message of conversation.messages" :key="message.id">
                 <AvatarMessage :profile_id="message.profile_id" />
-                <div>
+                <div v-if="messageNeedEdit && messageNeedEdit.id == message.id">
+                    <input type="text" v-model="messageNeedEdit.content">
+                    <button @click="cancelEditMess">Cancel</button>
+                    <button @click="saveEditMess(message)">Save</button>
+                </div>
+                <div v-else>
                     {{ message.content }}
                 </div>
+                
                 <ActionMess :message="message" 
                     @deleteMess="deleteMess"
+                    @openEditMess="openEditMess"
                 />
             </div>
         </div>
