@@ -176,69 +176,96 @@ const openListFollowings = () => {
 </script>
 
 <template>
-    <div>
-        <div v-if="isDoneLoad">
-            <div v-if="profile">
-                <h1>
-                    {{ profile.name }}
-                    <small v-if="isMyProfile">
-                        <RouterLink to="/profile/update">Update</RouterLink> - 
-                        <RouterLink to="/profile/pet/create">Create Pet</RouterLink>
-                    </small>
-                    <small v-if="isMyPet">
-                        <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
-                    </small>
-                </h1>
-                <div class="dev_page_content">
-                    <p>
-                        {{ profile.description }}
-                    </p>
-                    <div v-if="type == 'PROFILE'">
-                        <b>Phone: </b><span>{{ profile.phone }}</span>
-                    </div>
-                    <div v-else>
-                        <div>
-                            <b>Specie: </b><span>{{ profile.specie_type }}</span>
-                        </div>
-                        <br>
-                        <div>
-                            <b>Owner: </b> <CardUser :profile_id="profile.profile_id" />
-                        </div>
-                    </div>
-                    <hr>
-                    <div>
-                        <button @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
-                            <span v-if="!isFollowing">Follow</span>
-                            <span v-else>Following</span>
-                        </button>
-                        -
-                        <RouterLink v-if="type == 'PROFILE'" :to="`/chats/${profile.id}`">Chats</RouterLink>
-                    </div>
-                    <br>
-                    <div>
-                        <span v-if="type == 'PROFILE'" @click="openListFollowings">{{ followCount.followings.length }} Following</span>
-                        -
-                        <span v-if="followCount.followers" @click="openListFollowers">{{ followCount.followers.length }} Followers</span>
-                    </div>
-                    <hr>
-                    <div v-if="type == 'PROFILE' && profile.pets && profile.pets.length > 0">
-                        <h3>Pets</h3>
-                        <ListPet :pet_ids="profile.pets" />
-                        <hr>
-                    </div>
-                    <h3>Posts</h3>
-                    <ListPost :post_ids="profile.posts" />
-                </div>
-            </div>
-            <div v-else>
-                <h1>Not found profile</h1>
-            </div>
-        </div>
-        <div v-else>
+    <div v-if="isDoneLoad">
+        <v-container v-if="profile" class="pa-0">
+            <v-row>
+                <v-col cols="12">
+                    <v-card class="mx-auto" tile>
+                        <v-img src="/src/public/images/bia.jpg"  height="240" cover />
+                        <v-row no-gutters>
+                            <v-col cols="2" class="pa-0 d-flex justify-center">
+                                <v-avatar
+                                    size="160"
+                                    color="grey-darken-3"
+                                    image="https://avataaars.io/?avatarStyle=Transparent&topType=ShortHairShortCurly&accessoriesType=Prescription02&hairColor=Black&facialHairType=Blank&clotheType=Hoodie&clotheColor=White&eyeType=Default&eyebrowType=DefaultNatural&mouthType=Default&skinColor=Light"
+                                />
+                            </v-col>
+                            <v-col cols="5" class="pa-0 d-flex align-start justify-center flex-column">
+                                <div>
+                                    <strong>{{ profile.name }}</strong>
+                                </div>
+                                <div>
+                                    <v-btn flat @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
+                                        <span v-if="!isFollowing">Follow</span>
+                                        <span v-else>Following</span>
+                                    </v-btn>
+                                    <RouterLink v-if="type == 'PROFILE'" :to="`/chats/${profile.id}`">Chats</RouterLink>
+                                </div>
+                                <div>
+                                    <span v-if="type == 'PROFILE'" @click="openListFollowings">{{ followCount.followings.length }} Following</span>
+                                    -
+                                    <span v-if="followCount.followers" @click="openListFollowers">{{ followCount.followers.length }} Followers</span>
+                                </div>
+                            </v-col>
+                            <v-col cols="5" class="mt-6 pa-0 d-flex align-start justify-end">
+                                <div class="mx-6" v-if="isMyProfile">
+                                    <v-btn class="mr-6">
+                                        <RouterLink to="/profile/update">Update</RouterLink>
+                                    </v-btn>
+                                    <v-btn> 
+                                        <RouterLink to="/profile/pet/create">Create Pet</RouterLink>
+                                    </v-btn>
+                                    <v-btn v-if="isMyPet">
+                                        <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
+                                    </v-btn>
+                                </div>
+                            </v-col>
+                        </v-row>
+                    </v-card>   
+                </v-col>
 
+                <v-col cols="6">
+                    <v-card>
+                        <h1>Giới Thiệu</h1>
+                        <p>
+                        {{ profile.description }}
+                        </p>
+                        <div v-if="type == 'PROFILE'">
+                            <b>Phone: </b><span>{{ profile.phone }}</span>
+                        </div>
+                        <div v-else>
+                            <div>
+                                <b>Specie: </b><span>{{ profile.specie_type }}</span>
+                            </div>
+                            <br>
+                            <div>
+                                <b>Owner: </b> <CardUser :profile_id="profile.profile_id" />
+                            </div>
+                        </div>
+                        <div v-if="type == 'PROFILE' && profile.pets && profile.pets.length > 0">
+                            <h3>Pets</h3>
+                            <ListPet :pet_ids="profile.pets" />
+                            <hr>
+                        </div>
+                    </v-card>
+                </v-col>
+                <v-col cols="6">
+                    <v-card>
+                        <h3>Posts</h3>
+                        <ListPost :post_ids="profile.posts" />
+                    </v-card>
+                </v-col>
+            </v-row>
+        </v-container>
+        <div v-else>
+            <h1>Not found profile</h1>
         </div>
-        <ListCardUser v-if="showListUser" :profile_ids="showListUserProfileIds" @close="closeListUser" />
     </div>
+
+    <div v-else>
+
+    </div>
+    <ListCardUser v-if="showListUser" :profile_ids="showListUserProfileIds" @close="closeListUser" />
 </template>
 
 <style scoped></style>
