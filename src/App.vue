@@ -6,18 +6,16 @@ import Confirm from "@/components/common/Confirm.vue";
 </script>
 
 <template>
-   <v-app class="bg-background">
-    <Navbar />
-    <div class="container clearfix tl_page_container">
-      <div class="tl_page">
-        <div id="dev_page_content_wrap" class=" ">
-          <RouterView />
-        </div>
-      </div>
-      <Noti/>
-      <Confirm/>
+   <div class="app">
+    <div class="navbar">
+      <Navbar />
     </div>
-  </v-app>
+    <div class="main-ctn">
+      <RouterView />
+    </div>
+    <Noti/>
+    <Confirm/>
+  </div>
 </template>
 
 <style scoped>

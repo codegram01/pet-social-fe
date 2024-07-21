@@ -1,1 +1,116 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
+* {
+    box-sizing: border-box;
+    font-family: "Roboto", sans-serif;
+}
+
+:root {
+	--c-white: white;
+	--c-white-light: #f0f2f5;
+
+	--c-primary: #1877f2;
+    --c-secondary: #E4E6EB;
+
+    --c-text: #1c1e21;
+    --c-border: #dddfe2;
+
+    --c-shadow: rgba(0, 0, 0, 0.2);
+    --c-warning: #f02849;
+}
+
+body {
+	padding: 0px;
+	margin: 0px;
+	font-family: "Roboto", sans-serif;
+	font-size: 14px;
+	letter-spacing: 0.02em;
+	color: var(--c-text);
+}
+
+input {
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    border: 1px solid var(--c-border);
+}
+
+.inp--light {
+    background-color: var(--c-white-light);
+}
+
+button {
+    font-size: 16px;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: var(--c-primary);
+    color: var(--c-white);
+    font-weight: 500;
+    border: none;
+}
+
+.card {
+    box-shadow: 0 1px 5px #00000026;
+    border-radius: 6px;
+    padding: 12px;
+    background-color:var(--c-white);
+}
+
+.card + .card {
+    margin-top: 24px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.form {
+
+}
+
+.form input {
+    width: 100%;
+}
+
+.form button {
+    width: 100%;
+}
+
+.form .error {
+    color: var(--c-warning);
+    height: 24px;
+}
+
+.form label {
+    font-size: 17px;
+    font-weight: 500;
+    display: block;
+    margin-bottom: 4px;
+}
+
+a {
+    color: var(--c-primary);
+    font-weight: 500;
+}
+
+.full {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+.tab {
+    padding: 6px 12px;
+    display: flex;
+}
+
+.tab-icn {
+    width: 24px;
+    height: 24px;
+}
+
+.tab-text {
+    margin-left: 12px;
+    font-size: 16px;
+}

@@ -64,8 +64,9 @@ watch(()=> idConversation.value, async () => {
 </script>
 
 <template>
-    <div class="page">
-       <div class="tableft">
+    <div class="main">
+        
+       <div class="main-left">
             <div class="tableft-nav">
                 Chats
             </div>
@@ -79,7 +80,7 @@ watch(()=> idConversation.value, async () => {
                 {{ con.name }}
             </RouterLink>
        </div>
-       <div class="main">
+       <div class="main-center">
             <ChatDetail v-if="conversationDetail" :conversation="conversationDetail" />
        </div>
     </div>
@@ -110,14 +111,6 @@ watch(()=> idConversation.value, async () => {
     align-items: center;
     padding: 0px 12px;
     background: #faebd7;
-}
-
-.main {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: calc(100% - 272px);
-    height: 100%;
 }
 
 .conversation {

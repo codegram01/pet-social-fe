@@ -6,7 +6,7 @@ const props = defineProps(["post"])
 </script>
 
 <template>
-    <div>
+    <div class="card">
         <RouterLink :to="'/posts/' + post.id">
             <h2>{{ post.title }}</h2>
         </RouterLink>
@@ -19,7 +19,6 @@ const props = defineProps(["post"])
             <ListPet :pet_ids="post.pets" :hideDesc="true"/>
         </div>
         <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
-        <hr>
     </div>
 </template>
 

@@ -170,7 +170,6 @@ const saveEditMess = async () => {
 
 <style scoped>
 .chat-detail {
-    position: absolute;
     width: 100%;
     height: 100%;
     top: 0;

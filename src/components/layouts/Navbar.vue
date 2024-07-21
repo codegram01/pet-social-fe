@@ -33,7 +33,7 @@ onMounted(()=> {
 </script>
 
 <template>
-  <div>
+  <!-- <div>
     <v-toolbar color="light-blue-lighten-5">
       <v-container>
         <v-row>
@@ -78,7 +78,27 @@ onMounted(()=> {
         </v-row>
       </v-container>
     </v-toolbar>
+  </div> -->
+  <div class="full nav-ctn">
+    <RouterLink class="tab" to="/">Pet Social</RouterLink>
+    <RouterLink class="tab" to="/posts">Posts</RouterLink>
+    <RouterLink class="tab" to="/chats">Chats</RouterLink>
+
+    <div class="action-ctn">
+      <NavbarDropdown />
+    </div>
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.nav-ctn {
+  display: flex;
+  align-items: center;
+  padding: 0px 24px;
+}
+
+.action-ctn {
+  margin-left: auto;
+  
+}
+</style>

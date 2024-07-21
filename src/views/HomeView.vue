@@ -3,8 +3,9 @@
 </script>
 
 <template>
-  <div>
-    <h1>Welcome to Pet Social</h1>
+  <div class="main">
+    <div class="main-center">
+      <h1>Welcome to Pet Social</h1>
     <div class="dev_page_content">
       <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet, voluptatem nihil id dolorum delectus
         explicabo aliquam exercitationem dicta tempore qui corrupti cupiditate quaerat unde eos reprehenderit. Alias
@@ -26,6 +27,7 @@
         placeat quasi eveniet corporis repellendus. Magnam sequi exercitationem doloribus reprehenderit perspiciatis
         porro, voluptatum corporis quia molestias.</p>
       
+    </div>
     </div>
   </div>
 </template>

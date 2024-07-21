@@ -63,75 +63,30 @@ const login = async () => {
 </script>
 
 <template>
-    <div>
-        <h1 class="text-center headline py-5">
-            Pet Social
-        </h1>
+    <div class="main">
+        <div class="main-center">
+            <form class="card form" @submit.prevent="login">
+                    <label>Email</label>
+                    <input type="email" class="form-control" v-model="dataLogin.email" placeholder="Enter email">
+                    <div class="error">{{ errEmail }}</div>
 
-        <v-card
-            class="text-center mx-auto"
-            max-width="500px"
-        >
-            <v-icon
-                size="120px"
-                class="my-5"
-            >
-                mdi-account-circle
-            </v-icon>
-            <v-col
-                cols="11"
-                class="mx-auto"
-            >
-                <v-form
-                    ref="formLogin"
-                    class="text-left"
-                >
-                    <v-text-field
-                        v-model="dataLogin.email"
-                        label="Email"
-                        type="email"
-                        append-inner-icon="mdi-email"
-                        color="primary"
-                        variant="solo"             
-                        autofocus
-                        validate-on-blur
-                        @input="checkEmail"
-                    />
-                    <!-- <input type="text" v-model="dataLogin.email" @input="checkEmail"> -->
-                    <div>{{ errEmail }}</div>
-                    <v-text-field
-                        v-model="dataLogin.password"
-                        label="Password"
-                        type="password"
-                        append-inner-icon="mdi-lock"
-                        color="primary"
-                        variant="solo"
-                        class="mb-3"
-                        hide-details="auto"              
-                        validate-on-blur
-                        @keyup.enter="login(dataLogin)"
-
-                    />
+                    <label>Password</label>
+                    <input type="password" class="form-control" v-model="dataLogin.password" placeholder="Enter password">
                     <div class="error">{{ errPass }}</div>
 
-                    <div class="text-right">
-                        <v-btn
-                            @click="login(dataLogin)"
-                            color="primary"
-                            class="text-white mt-3"
-                        >
-                            Login
-                        </v-btn>
-                        <div class="help-block">
-                            Not have account
-                            <RouterLink to="/register">Register</RouterLink>
-                        </div>
-                    </div>
-                </v-form>
-            </v-col>
-        </v-card>
+                    <button type="submit" class="btn btn-primary">Login</button>
+                </form>
+
+                <div class="help-block">
+                    Not have account
+                    <RouterLink to="/register">Register</RouterLink>
+                </div>
+        </div>
     </div>
 </template>
 
 <style scoped>
+.help-block {
+    margin-top: 24px;
+}
 </style>

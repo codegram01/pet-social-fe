@@ -23,8 +23,8 @@ const getPosts = async () => {
 
 <template>
     <div>
-        <div v-for="post of posts" :key="post.id">
-            <ItemPost :post="post"/>
-        </div>
+            <ItemPost v-for="post of posts" :key="post.id" :post="post"/>
     </div>
 </template>
+
+<style scoped></style>
