@@ -14,6 +14,7 @@
     top: 0;
     left: 0;
     box-shadow: 0 1px 2px var(--c-shadow);
+    z-index: 2;
 }
 
 .main-ctn {
@@ -35,8 +36,8 @@
 
 .main-left {
     width: 252px;
-    border-right: 1px solid var(--c-border);
     padding: 24px;
+    padding-right: 0px;
     overflow-y: auto;
 }
 
@@ -50,8 +51,8 @@
 
 .main-right {
     width: 252px;
-    border-left: 1px solid var(--c-border);
     padding: 24px;
+    padding-left: 0px;
     overflow-y: auto;
 }
 

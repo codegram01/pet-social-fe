@@ -80,10 +80,11 @@ onMounted(()=> {
     </v-toolbar>
   </div> -->
   <div class="full nav-ctn">
-    <RouterLink class="tab" to="/">Pet Social</RouterLink>
-    <RouterLink class="tab" to="/posts">Posts</RouterLink>
-    <RouterLink class="tab" to="/chats">Chats</RouterLink>
-
+    <RouterLink class="tab" to="/"> 
+      <i class="bi bi-twitter"></i> 
+      <span class="tab-text">Pet Social</span>
+    </RouterLink>
+    <input type="text" class="inp--light nav-search" placeholder="Find something">
     <div class="action-ctn">
       <NavbarDropdown />
     </div>
@@ -99,6 +100,10 @@ onMounted(()=> {
 
 .action-ctn {
   margin-left: auto;
-  
+}
+
+.nav-search {
+  margin-left: 24px;
+  width: 272px;
 }
 </style>

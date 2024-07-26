@@ -176,74 +176,75 @@ const openListFollowings = () => {
 </script>
 
 <template>
-    <div class="profile">
-        <img src="/src/public/images/bia.jpg" alt="Cover Photo" class="cover-photo">
-        <div class="profile-top">  
-            <img src="@/public/images/avatar.png" alt="Profile Photo" class="profile-photo">
-            <h1 class="profile-name">
-                {{ profile.name }}
-                <div class="action-buttons" v-if="isMyProfile">
-                    <RouterLink to="/profile/update" class="btn btn-primary">Update</RouterLink>
-                    <RouterLink to="/profile/pet/create" class="btn btn-primary">Create Pet</RouterLink>
-                </div>
-                <div class="action-buttons" v-if="isMyPet">
-                    <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
-                </div>
-            </h1>
-            <div>
-                <button @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
-                    <span v-if="!isFollowing">Follow</span>
-                    <span v-else>Following</span>
-                </button>
-                -
-                <RouterLink v-if="type == 'PROFILE'" :to="`/chats/${profile.id}`">Chats</RouterLink>
-            </div>
-            <br>
-            <div>
-                <span v-if="type == 'PROFILE'" @click="openListFollowings">{{
-                    followCount.followings.length }} Following</span>
-                -
-                <span v-if="followCount.followers" @click="openListFollowers">{{
-                    followCount.followers.length }} Followers</span>
-            </div>
-        </div>
-        <div class="main">
-            <div class="main-left card">
-                <p>
-                    {{ profile.description }}
-                </p>
-                <div v-if="type == 'PROFILE'">
-                    <b>Phone: </b><span>{{ profile.phone }}</span>
-                </div>
-                <div v-else>
-                    <div>
-                        <b>Specie: </b><span>{{ profile.specie_type }}</span>
-                    </div>
-                    <br>
-                    <div>
-                        <b>Owner: </b>
-                        <CardUser :profile_id="profile.profile_id" />
-                    </div>
-                </div>
-                <div v-if="type == 'PROFILE' && profile.pets && profile.pets.length > 0">
-                    <h3>Pets</h3>
-                    <ListPet :pet_ids="profile.pets" />
-                    <hr>
-                </div>
-            </div>
-            <div class="main-center">
-                <div v-if="isDoneLoad">
-                    <div v-if="profile">
-                        <ListPost :post_ids="profile.posts" />
-                    </div>
-                    <div v-else>
-                        <h1>Not found profile</h1>
-                    </div>
-                </div>
-                <div v-else>
 
+    <div class="main">
+
+        <div class="main-center" v-if="isDoneLoad && profile">
+            <div class="profile-top">
+                <img src="https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733_640.jpg" alt="Cover Photo" class="cover-photo">
+                <div class="profile-top-desc">
+                    <img src="@/public/images/avatar.png" alt="Profile Photo" class="profile-photo">
+                    <div class="profile-top-action">
+                        <div class="profile-name">
+                            {{ profile.name }}
+                        </div>
+                        <div class="profile-top-action-right">
+                            <div v-if="!isMyProfile">
+                                <button @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
+                                    <span v-if="!isFollowing">Follow</span>
+                                    <span v-else>Following</span>
+                                </button>
+                                
+                                <RouterLink class="btn btn-primary" style="margin-left: 12px;" v-if="type == 'PROFILE'" :to="`/chats/${profile.id}`">Chats</RouterLink>
+                            </div>
+                            <div class="action-buttons" v-if="isMyProfile">
+                                <RouterLink to="/profile/update" class="btn btn-primary">Update</RouterLink>
+                                <RouterLink to="/profile/pet/create" class="btn btn-primary">Create Pet</RouterLink>
+                            </div>
+                            <div class="action-buttons" v-if="isMyPet">
+                                <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <ListCardUser v-if="showListUser" :profile_ids="showListUserProfileIds" @close="closeListUser" />
+            </div>
+            <div class="profile-main">
+                <div class="profile-left">
+                    <div class="card">
+                        {{ profile.description }}
+                    </div>
+                    <div class="card" v-if="type == 'PROFILE'">
+                        <div>
+                            <b>Phone: </b><span>{{ profile.phone }}</span>
+                        </div>
+                        <div>
+                            <b v-if="followCount.followers" @click="openListFollowers">Followers: </b><span>{{
+                            followCount.followings.length }}</span>
+                        </div>
+                        <div>
+                            <b v-if="type == 'PROFILE'" @click="openListFollowings">Followings: </b><span>{{
+                            followCount.followings.length }}</span>
+                        </div>
+                    </div>
+                    <div class="card" v-else>
+                        <div>
+                            <b>Specie: </b><span>{{ profile.specie_type }}</span>
+                        </div>
+                        <br>
+                        <div>
+                            <b>Owner: </b>
+                            <CardUser :profile_id="profile.profile_id" />
+                        </div>
+                    </div>
+                    <div class="card" v-if="type == 'PROFILE' && profile.pets && profile.pets.length > 0">
+                        <h3>Pets</h3>
+                        <ListPet :pet_ids="profile.pets" />
+                    </div>
+                </div>
+                <div class="profile-detail">
+                    <ListPost :post_ids="profile.posts" />
+                    <ListCardUser v-if="showListUser" :profile_ids="showListUserProfileIds" @close="closeListUser" />
+                </div>
             </div>
         </div>
     </div>
@@ -258,13 +259,8 @@ const openListFollowings = () => {
     overflow-y: unset;
 } */
 
-.profile {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    top: 0;
-    overflow-y: auto;
+.main-center {
+    max-width: 1200px;
 }
 
 .cover-photo {
@@ -274,8 +270,36 @@ const openListFollowings = () => {
 }
 
 .profile-top {
-    position: relative;
-    margin-top: -100px;
+    background: white;
+    margin-bottom: 24px;
+}
+
+.profile-top-desc {
+    margin-top: -48px;
+    padding: 0px 24px;
+    display: flex;
+    align-items: end;
+    padding-bottom: 24px;
+}
+
+.profile-top-action {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    display: flex;
+    margin-bottom: 24px;
+    padding-left: 24px;
+    width: 100%;
+}
+
+.profile-top-action-right {
+    margin-left: auto;
+}
+
+.profile-name {
+    font-size: 24px;
+    font-weight: 600;
 }
 
 .profile-photo {
@@ -286,16 +310,24 @@ const openListFollowings = () => {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.profile-name {
-    font-size: 2em;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
+
 
 .action-buttons {
     display: flex;
     gap: 10px;
+}
+
+.profile-main {
+    display: flex;
+}
+
+.profile-left {
+    width: 250px;
+    margin-right: 24px;
+}
+
+.profile-detail {
+    width: 100%;
+    flex: 1;
 }
 </style>

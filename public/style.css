@@ -39,7 +39,7 @@ input {
     background-color: var(--c-white-light);
 }
 
-button {
+ /* {
     font-size: 16px;
     padding: 6px 12px;
     border-radius: 6px;
@@ -47,9 +47,9 @@ button {
     color: var(--c-white);
     font-weight: 500;
     border: none;
-}
+} */
 
-.btn {
+button, .btn {
     display: inline-block;
     padding: 10px 20px;
     font-size: 16px;
@@ -62,15 +62,15 @@ button {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.2s;
-  }
+}
   
-  .btn-primary {
+.btn-primary {
     background-color: #007bff;
-  }
-  
-  .btn-primary:hover {
+}
+
+.btn-primary:hover {
     background-color: #0056b3;
-  }
+}
 
 .card {
     box-shadow: 0 1px 5px #00000026;
@@ -112,9 +112,14 @@ button {
     margin-bottom: 4px;
 }
 
-a {
+a, .link {
     color: var(--c-primary);
     font-weight: 500;
+    text-decoration: none;
+}
+
+hr {
+    border-top: 1px solid var(--c-border);
 }
 
 .full {
@@ -123,17 +128,32 @@ a {
     height: 100%;
 }
 
-.tab {
-    padding: 6px 12px;
+.tab-list-row {
     display: flex;
+    flex-flow: column;
+}
+
+.tab-list-col {
+    display: flex;
+    flex-flow: row;
+   
+}
+
+.tab {
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
 }
 
 .tab-icn {
-    width: 24px;
-    height: 24px;
 }
 
 .tab-text {
     margin-left: 12px;
     font-size: 16px;
+}
+
+.bi {
+    font-size: 22px;
 }

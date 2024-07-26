@@ -26,10 +26,10 @@ const props = defineProps(["post"])
             <span class="emoji">👎</span>
         </div>
         <hr>
-        <div class="btn-group">
-            <button class="btn-action"><i class="bi bi-hand-thumbs-up"></i> Thích</button>
-            <button class="btn-action"><i class="bi bi-chat"></i> Bình luận</button>
-            <button class="btn-action"><i class="bi bi-share"></i> Chia Sẻ</button>
+        <div class="btn-group tab-list-col">
+            <span class="tab btn-action"><i class="bi bi-hand-thumbs-up"></i> <span class="tab-text">Like</span></span>
+            <span class="tab btn-action"><i class="bi bi-chat"></i> <span class="tab-text">Comment</span></span>
+            <span class="tab btn-action"><i class="bi bi-share"></i> <span class="tab-text">Share</span></span>
         </div>
     </div>
 </template>
@@ -47,18 +47,9 @@ const props = defineProps(["post"])
     margin-bottom: 12px;
 }
 .btn-group {
-    display: flex;
     justify-content: space-between;
 }
 
- .btn-action {
-    background-color: white;
-    border: none;
-    color: black;
-    padding: 12px 32px;
-    font-size: 16px;
-    cursor: pointer;
-}
 
 .btn-group .btn-action:hover {
   background-color: #e4e6eb;

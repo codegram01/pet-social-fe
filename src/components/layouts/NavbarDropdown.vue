@@ -15,13 +15,20 @@ const switchDropdown = () => {
 </script>
 
 <template>
-    <li class="dropdown" v-if="!isLoggedIn">
+    <div class="dropdown" v-if="!isLoggedIn">
         <RouterLink to="/login">Login</RouterLink>
-    </li>
-    <li v-else class="dropdown">
-        <a href="#" @click="switchDropdown">
-            <i class="bi bi-person-fill"></i>
-        </a>
+    </div>
+    <div v-else class="dropdown">
+        <div class="tab-list-col">
+            <RouterLink class="tab" to="/chats">
+                <i class="bi bi-chat-fill"></i>
+                <span class="tab-text">Chats</span>
+            </RouterLink>
+            <span class="link tab" @click="switchDropdown">
+                <i class="bi bi-person-fill"></i>
+                <span class="tab-text">Account</span>
+            </span>
+        </div>
         <div class="hover-popup" v-if="showDropdown">
             <!-- <div class="overlay"></div> -->
             <div class="popup" @click="closeDropdown">
@@ -31,7 +38,7 @@ const switchDropdown = () => {
                 <span class="popup-tab" @click="logout">Logout</span>
             </div>
         </div>
-    </li>
+    </div>
 </template>
 
 <style scoped>
@@ -66,5 +73,9 @@ const switchDropdown = () => {
     left: 0px;
     top: 0px;
     z-index: 10;
+}
+
+.tab + .tab {
+    margin-left: 24px;
 }
 </style>
