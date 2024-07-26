@@ -15,11 +15,13 @@ const getPets = async () => {
         })
     });
 }
+console.log(pets.value)
 </script>
 
 <template>
     <div>
-        <div v-for="pet of pets">
+        <div v-for="pet of pets" :key="pet.id">
+            <b>Pets: </b>
             <RouterLink :to="`/profile/pet/${pet.id}`"><b>{{ pet.name }}</b></RouterLink>
             <p v-if="!hideDesc">{{ pet.description }}</p>
         </div>

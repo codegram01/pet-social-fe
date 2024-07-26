@@ -177,35 +177,19 @@ const openListFollowings = () => {
 
 <template>
     <div class="profile">
-        <div class="profile-top">
-            <h1>
+        <img src="/src/public/images/bia.jpg" alt="Cover Photo" class="cover-photo">
+        <div class="profile-top">  
+            <img src="@/public/images/avatar.png" alt="Profile Photo" class="profile-photo">
+            <h1 class="profile-name">
                 {{ profile.name }}
-                <small v-if="isMyProfile">
-                    <RouterLink to="/profile/update">Update</RouterLink> -
-                    <RouterLink to="/profile/pet/create">Create Pet</RouterLink>
-                </small>
-                <small v-if="isMyPet">
+                <div class="action-buttons" v-if="isMyProfile">
+                    <RouterLink to="/profile/update" class="btn btn-primary">Update</RouterLink>
+                    <RouterLink to="/profile/pet/create" class="btn btn-primary">Create Pet</RouterLink>
+                </div>
+                <div class="action-buttons" v-if="isMyPet">
                     <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
-                </small>
+                </div>
             </h1>
-
-            <p>
-                {{ profile.description }}
-            </p>
-            <div v-if="type == 'PROFILE'">
-                <b>Phone: </b><span>{{ profile.phone }}</span>
-            </div>
-            <div v-else>
-                <div>
-                    <b>Specie: </b><span>{{ profile.specie_type }}</span>
-                </div>
-                <br>
-                <div>
-                    <b>Owner: </b>
-                    <CardUser :profile_id="profile.profile_id" />
-                </div>
-            </div>
-         
             <div>
                 <button @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
                     <span v-if="!isFollowing">Follow</span>
@@ -222,15 +206,30 @@ const openListFollowings = () => {
                 <span v-if="followCount.followers" @click="openListFollowers">{{
                     followCount.followers.length }} Followers</span>
             </div>
-         
         </div>
         <div class="main">
-            <div class="main-left">
+            <div class="main-left card">
+                <p>
+                    {{ profile.description }}
+                </p>
+                <div v-if="type == 'PROFILE'">
+                    <b>Phone: </b><span>{{ profile.phone }}</span>
+                </div>
+                <div v-else>
+                    <div>
+                        <b>Specie: </b><span>{{ profile.specie_type }}</span>
+                    </div>
+                    <br>
+                    <div>
+                        <b>Owner: </b>
+                        <CardUser :profile_id="profile.profile_id" />
+                    </div>
+                </div>
                 <div v-if="type == 'PROFILE' && profile.pets && profile.pets.length > 0">
-                                <h3>Pets</h3>
-                                <ListPet :pet_ids="profile.pets" />
-                                <hr>
-                            </div>
+                    <h3>Pets</h3>
+                    <ListPet :pet_ids="profile.pets" />
+                    <hr>
+                </div>
             </div>
             <div class="main-center">
                 <div v-if="isDoneLoad">
@@ -251,22 +250,52 @@ const openListFollowings = () => {
 </template>
 
 <style scoped>
+/* .main {
+    background-color: unset;
+} */
+
+/* .main-center {
+    overflow-y: unset;
+} */
+
 .profile {
     height: 100%;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  overflow-y: auto;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    overflow-y: auto;
 }
 
-.main {
-    background-color: unset;
+.cover-photo {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
 }
 
-.profile-top {}
+.profile-top {
+    position: relative;
+    margin-top: -100px;
+}
 
-.main-center {
-    overflow-y: unset;
+.profile-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 5px solid white;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+.profile-name {
+    font-size: 2em;
+    margin-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
 }
 </style>

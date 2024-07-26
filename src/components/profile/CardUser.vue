@@ -13,6 +13,7 @@ onBeforeMount(async ()=>{
 
 <template>
     <div v-if="user">
+        <img src="@/public/images/avatar.png" alt="Avatar" class="avatar">
         <RouterLink :to="'/profile/' + user.id">
             <b>{{ user.name }}</b>
         </RouterLink>

@@ -141,7 +141,7 @@ const removeFile = (index) => {
 
                 <div class="form-group">
                     <label>Pets</label>
-                    <div v-for="pet of pets">
+                    <div v-for="pet of pets" :key="pet.name">
                         <label>
                             <input type="checkbox" v-model="pet._chose"> {{ pet.name }}
                         </label>

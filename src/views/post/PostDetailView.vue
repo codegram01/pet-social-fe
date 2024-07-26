@@ -39,8 +39,8 @@ const updateLikes = (likes) => {
 </script>
 
 <template>
-    <div>
-        <div v-if="isDoneLoad">
+    <div class="main">
+        <div v-if="isDoneLoad" class="main-center">
             <div v-if="post">
                 <h1>{{ post.title }}</h1>
                 <CardUser :profile_id="post.profile_id" />
@@ -68,5 +68,9 @@ const updateLikes = (likes) => {
 <style scoped>
 .post-img {
     max-width: 100%;
+}
+
+.main-center {
+    background-color: white;;
 }
 </style>
