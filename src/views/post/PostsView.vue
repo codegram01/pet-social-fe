@@ -2,6 +2,7 @@
 import {ref, onBeforeMount, computed, watch } from "vue";
 import { post_list_api, post_list_follow_api } from "@/services/post";
 import ItemPost from "@/components/posts/ItemPost.vue"
+import PostCreate from "@/components/posts/PostCreate.vue";
 
 const props = defineProps(["type"])
 
@@ -34,6 +35,14 @@ const typePostMess = computed(() => {
         return "Posts Following"
     }
 })
+
+const showCreatePost = ref(false)
+const openCreatePost = () => {
+    showCreatePost.value = true
+}
+const closeCreatePost = () => {
+    showCreatePost.value = false
+}
 </script>
 
 <template>
@@ -80,13 +89,15 @@ const typePostMess = computed(() => {
                 </form> -->
             <div class="card" style="display: flex;">
                 <span>Say something to the world</span>
-                <RouterLink to="/posts/create" class="btn btn-primary btn-create">Create Post</RouterLink>
+
+                <button class="btn btn-primary btn-create" @click="openCreatePost">Create Post</button>
+
             </div>
             <div class="card form">
                 <label for="">Create Posts</label>
-                <RouterLink to="/posts/create">
+                <div @click="openCreatePost">
                     <input class="inp--light" type="text" placeholder="What's on your mind">
-                </RouterLink>
+                </div>
               
             </div>
             <ItemPost v-for="post of posts" :key="post.id" :post="post"/>
@@ -111,7 +122,7 @@ const typePostMess = computed(() => {
                 <img style="width: 100%;" src="https://fly.io/phx/ui/images/fly-globe-cb332f77ddb429aa3ef4e0a2c6c592ba.png?vsn=d" alt="">
             </div>
         </div>
-        
+        <PostCreate v-if="showCreatePost" @close="closeCreatePost"/>
     </div>
 </template>
 

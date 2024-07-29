@@ -12,12 +12,20 @@ const close = () => {
     <div class="overlay" @click="close">
         <div class="container-popup" @click.stop="">
             <div class="header">
-                <slot name="header"></slot>
+                <slot name="header">
+
+                </slot>
             </div>
-            <hr>
-            <slot name="body">
+            <div class="body">
+                <slot name="body">
     
-            </slot>
+                </slot>
+            </div>
+            <div class="bottom">
+                <slot name="bottom">
+    
+                </slot>
+            </div>
         </div>
     </div>
 </template>
@@ -42,10 +50,23 @@ const close = () => {
     background-color: white;
     padding: 24px;
     min-width: 400px;
+    border-radius: 12px;
 }
 
 .header {
     font-size: 20px;
     font-weight: 500;
+    padding-bottom: 12px;
+}
+
+.body {
+    padding-top: 12px;
+    border-top: 1px solid var(--c-border);
+    border-bottom: 1px solid var(--c-border);
+}
+
+.bottom {
+    padding-top: 12px;
+    display: flex;
 }
 </style>

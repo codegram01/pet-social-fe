@@ -17,14 +17,17 @@ const props = defineProps(["post"])
         <div v-if="post.pets && post.pets.length > 0">
             <ListPet :pet_ids="post.pets" :hideDesc="true"/>
         </div>
+        <div v-if="post.hashtags">
+            <span v-for="tag of post.hashtags">#{{ tag.tag }} </span>
+        </div>
         <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
-        <div class="reaction-container">
+        <!-- <div class="reaction-container">
             <span class="emoji">😀</span>
             <span class="emoji">😍</span>
             <span class="emoji">😢</span>
             <span class="emoji">👍</span>
             <span class="emoji">👎</span>
-        </div>
+        </div> -->
         <hr>
         <div class="btn-group tab-list-col">
             <span class="tab btn-action"><i class="bi bi-hand-thumbs-up"></i> <span class="tab-text">Like</span></span>

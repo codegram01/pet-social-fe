@@ -33,9 +33,6 @@ const router = createRouter({
       component: () => import('@/views/post/PostsView.vue'),
       props: { type: 'FOLLOWING' }
     },{
-      path: '/posts/create',
-      component: () => import('@/views/post/PostCreateView.vue'),
-    },{
       path: '/posts/:idPost',
       component: () => import('@/views/post/PostDetailView.vue')
     }

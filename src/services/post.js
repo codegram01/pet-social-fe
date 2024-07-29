@@ -19,6 +19,7 @@ export const post_list_api = async () => {
     }
 }
 
+
 export const post_list_follow_api = async () => {
     try {
         return await api("GET", "/posts/follow")
@@ -58,6 +59,33 @@ export const post_comment_api = async (idPost, data) => {
 export const post_delete_comment_api = async (idComment) => {
     try {
         return await api("DELETE", `/posts/comment/${idComment}`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
+export const search_post_by_hashtag_api = async () => {
+    try {
+        return await api("GET", "/posts/hashtags/search")
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
+export const search_hash_tag_by_tag_api = async (tagInp) => {
+    try {
+        return await api("GET", `/posts/hashtags/search/tag?tag=${tagInp}`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
+export const search_hash_popular_api = async () => {
+    try {
+        return await api("GET", "/posts/hashtags/search/tag")
     } catch (error) {
         process_error(error)
         throw error

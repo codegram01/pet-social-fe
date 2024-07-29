@@ -72,6 +72,11 @@ button, .btn {
     background-color: #0056b3;
 }
 
+.btn--light {
+    background-color: white;
+    color: var(--c-text);
+}
+
 .card {
     box-shadow: 0 1px 5px #00000026;
     border-radius: 6px;
@@ -92,12 +97,12 @@ button, .btn {
 
 }
 
-.form input {
+.form input[type='text'] {
     width: 100%;
 }
 
+
 .form button {
-    width: 100%;
 }
 
 .form .error {
@@ -136,7 +141,6 @@ hr {
 .tab-list-col {
     display: flex;
     flex-flow: row;
-   
 }
 
 .tab {
