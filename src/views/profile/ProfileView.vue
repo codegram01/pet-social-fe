@@ -14,6 +14,7 @@ import ListCardUser from "@/components/profile/ListCardUser.vue";
 import CardUser from "@/components/profile/CardUser.vue";
 import ListPet from "@/components/profile/ListPet.vue";
 import ListPost from "@/components/posts/ListPost.vue"
+import ProfileUpdate from '@/components/profile/ProfileUpdate.vue';
 
 const props = defineProps(["type"])
 
@@ -172,6 +173,16 @@ const openListFollowings = () => {
     })
     openListUser(profile_ids)
 }
+const updateProfileType = ref('');
+
+const showUpdateProfile = ref(false)
+const openUpdateProfile = (type) => {
+    updateProfileType.value = type
+    showUpdateProfile.value = true
+}
+const closeUpdateProfile= () => {
+    showUpdateProfile.value = false
+}
 
 </script>
 
@@ -197,9 +208,12 @@ const openListFollowings = () => {
                                 
                                 <RouterLink class="btn btn-primary" style="margin-left: 12px;" v-if="type == 'PROFILE'" :to="`/chats/${profile.id}`">Chats</RouterLink>
                             </div>
-                            <div class="action-buttons" v-if="isMyProfile">
-                                <RouterLink to="/profile/update" class="btn btn-primary">Update</RouterLink>
-                                <RouterLink to="/profile/pet/create" class="btn btn-primary">Create Pet</RouterLink>
+                            <div v-if="isMyProfile && !isMyPet && profile.pets && profile.pets.length > 0">
+                                <button class="btn btn-primary btn-create" @click="openUpdateProfile('PROFILE')">Update</button>
+                            </div>
+                            <div v-if="isMyProfile && !isMyPet && profile.pets.length === 0" class="action-buttons">
+                                <button class="btn btn-primary btn-create" @click="openUpdateProfile('PROFILE')">Update</button>
+                                <button class="btn btn-primary btn-create" @click="openUpdateProfile('PET')">Create Pet</button>
                             </div>
                             <div class="action-buttons" v-if="isMyPet">
                                 <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
@@ -207,6 +221,8 @@ const openListFollowings = () => {
                         </div>
                     </div>
                 </div>
+                <ProfileUpdate v-if="showUpdateProfile" :type="updateProfileType" @close="closeUpdateProfile"/>
+                
             </div>
             <div class="profile-main">
                 <div class="profile-left">
