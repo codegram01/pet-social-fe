@@ -1,11 +1,12 @@
 <script setup>
 import { onBeforeMount, ref } from "vue"
-import { post_create_api, search_hash_tag_by_tag_api } from "@/services/post"
+import { post_create_api } from "@/services/post"
 import { files_upload_api } from "@/services/file"
 import { my_pet_api } from "@/services/pet"
 import { useRouter } from "vue-router";
 import { g_validation } from "@/modules/validation";
 import Popup from "@/components/common/Popup.vue";
+import HashtagChose from "./HashtagChose.vue";
 const emits = defineEmits(["close", "createPost"]);
 
 
@@ -109,52 +110,12 @@ const removeFile = (index) => {
 const close = () => {
     emits("close")
 }
-
-const inpHashtag = ref("")
-
-const timeOutCallSearch = ref(null);
-const searchHashtag = () => {
-    console.log(inpHashtag.value)
-    if(inpHashtag.value) {
-        if (timeOutCallSearch.value) {
-            clearTimeout(timeOutCallSearch.value);
-        }
-        timeOutCallSearch.value = setTimeout(async () => {
-            await callApiSearchHashtag();
-        }, 500);
-    }
-}
-
-const callApiSearchHashtag = async () => {
-    try {
-            await search_hash_tag_by_tag_api(inpHashtag.value).then(res => {
-                hashtagsSearch.value = res;
-            })
-        } catch (error) {
-            console.log(error)
-        }
-}
-
-const hashtagsSearch = ref([])
-
-const choseHashtag = (tag) => {
-    post.value.hashtags.push({
-        tag: tag
-    })
-}
-
-
-const enterHashtag = () => {
-    choseHashtag(inpHashtag.value)
-
-    inpHashtag.value = ""
-}
 </script>
 
 <template>
     <div>
         <form class="form" @submit.prevent="createPost">
-            <Popup @close="close">
+            <Popup @close="close" container-popup-max-width="500px">
                 <template v-slot:header>
                     Create Post
                 </template>
@@ -196,14 +157,7 @@ const enterHashtag = () => {
                     </div>
                     <div class="error"></div>
 
-                    <label>Hashtags</label>
-                    <div v-for="tag of hashtagsSearch" :key="tag" @click="choseHashtag(tag.tag)">
-                        {{ tag.tag }}
-                    </div>
-                    <input @input="searchHashtag" v-model="inpHashtag" type="text" placeholder="Enter hashtag"  v-on:keydown.enter.prevent="enterHashtag">
-                   <div v-for="tag of post.hashtags" :key="tag">
-                        {{ tag.tag }}
-                   </div>
+                    <HashtagChose :hashtags="post.hashtags"/>
 
                 </template>
                 <template v-slot:bottom>

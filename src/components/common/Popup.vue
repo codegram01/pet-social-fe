@@ -1,5 +1,5 @@
 <script setup>
-
+const props = defineProps(["containerPopupMaxWidth"])
 const emits = defineEmits(["close"])
 
 const close = () => {
@@ -10,7 +10,7 @@ const close = () => {
 
 <template>
     <div class="overlay" @click="close">
-        <div class="container-popup" @click.stop="">
+        <div class="container-popup" :style="{'max-width': containerPopupMaxWidth}" @click.stop="">
             <div class="header">
                 <slot name="header">
 

@@ -66,6 +66,9 @@ const searchServices = ref([
     }, {
         name: 'Articles',
         service: 'articles'
+    }, {
+        name: 'Tags',
+        service: 'tags'
     }
 ])
 

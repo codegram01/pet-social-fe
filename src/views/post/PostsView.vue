@@ -3,6 +3,7 @@ import {ref, onBeforeMount, computed, watch } from "vue";
 import { post_list_api, post_list_follow_api } from "@/services/post";
 import ItemPost from "@/components/posts/ItemPost.vue"
 import PostCreate from "@/components/posts/PostCreate.vue";
+import HashtagsPopular from "@/components/posts/HashtagsPopular.vue";
 
 const props = defineProps(["type"])
 
@@ -106,17 +107,8 @@ const closeCreatePost = () => {
         </div>
         <div class="main-right">
             <div class="card">
-                <ul>
-                    <li>
-                        <a href="">Becgie</a>
-                    </li>
-                    <li>
-                        <a href="">Tom</a>
-                    </li>
-                    <li>
-                        <a href="">Jerry</a>
-                    </li>
-                </ul>
+                <div class="popular-hashtags-title">Popular Hashtags</div>
+                <HashtagsPopular/>
             </div>
             <div class="card">
                 <img style="width: 100%;" src="https://fly.io/phx/ui/images/fly-globe-cb332f77ddb429aa3ef4e0a2c6c592ba.png?vsn=d" alt="">
@@ -153,5 +145,11 @@ const closeCreatePost = () => {
 
 .btn-primary:hover {
   background-color: #0056b3;
+}
+
+.popular-hashtags-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
 }
 </style>

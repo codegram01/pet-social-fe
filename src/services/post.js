@@ -85,7 +85,7 @@ export const search_hash_tag_by_tag_api = async (tagInp) => {
 
 export const search_hash_popular_api = async () => {
     try {
-        return await api("GET", "/posts/hashtags/search/tag")
+        return await api("GET", "/posts/hashtags/popular")
     } catch (error) {
         process_error(error)
         throw error

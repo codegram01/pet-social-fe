@@ -1,6 +1,7 @@
 <script setup>
 import CardUser from "@/components/profile/CardUser.vue";
 import ListPet from "@/components/profile/ListPet.vue";
+import ListHashtag from "./ListHashtag.vue";
 
 const props = defineProps(["post"])
 </script>
@@ -18,7 +19,7 @@ const props = defineProps(["post"])
             <ListPet :pet_ids="post.pets" :hideDesc="true"/>
         </div>
         <div v-if="post.hashtags">
-            <span v-for="tag of post.hashtags">#{{ tag.tag }} </span>
+            <ListHashtag :hashtags="post.hashtags"/>
         </div>
         <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
         <!-- <div class="reaction-container">

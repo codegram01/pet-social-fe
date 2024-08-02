@@ -5,7 +5,7 @@ import { pet_create_api, detail_pet_api, pet_update_api } from "@/services/pet"
 import { isCreatedProfile, auth_user } from "@/stores/auth"
 import { useRoute, useRouter } from "vue-router";
 import Popup from "../common/Popup.vue";
-const emits = defineEmits(["close", "createPost"]);
+const emits = defineEmits(["close", "updateProfile"]);
 
 const router = useRouter();
 const route = useRoute();
@@ -65,7 +65,7 @@ const updateProfile = async () => {
                 }).then(res => {
                     auth_user.value.profile_id = res.id;
                     close();
-                    window.location.reload()
+                    emits("updateProfile", res)
                 })
             } catch (error) {
                 console.log(error)

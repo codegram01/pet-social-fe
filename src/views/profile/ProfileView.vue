@@ -184,6 +184,15 @@ const closeUpdateProfile= () => {
     showUpdateProfile.value = false
 }
 
+const updateProfile = (p) => {
+    profile.value.name = p.name
+    profile.value.description = p.description
+    profile.value.phone = p.phone
+    profile.value.address = p.address
+    profile.value.gender = p.gender
+    profile.value.birthday = p.birthday
+}
+
 </script>
 
 <template>
@@ -221,7 +230,12 @@ const closeUpdateProfile= () => {
                         </div>
                     </div>
                 </div>
-                <ProfileUpdate v-if="showUpdateProfile" :type="updateProfileType" @close="closeUpdateProfile"/>
+                <ProfileUpdate 
+                    v-if="showUpdateProfile" 
+                    :type="updateProfileType" 
+                    @close="closeUpdateProfile"
+                    @updateProfile="updateProfile"
+                />
                 
             </div>
             <div class="profile-main">
