@@ -1,9 +1,19 @@
 <script setup>
+import { ref } from "vue";
 import CardUser from "@/components/profile/CardUser.vue";
 import ListPet from "@/components/profile/ListPet.vue";
 import ListHashtag from "./ListHashtag.vue";
+import PostDetail from "./PostDetail.vue";
 
 const props = defineProps(["post"])
+
+const showDetailPost = ref(false)
+const openDetailPost = () => {
+    showDetailPost.value = true
+}
+const closeDetailPost = () => {
+    showDetailPost.value = false
+}
 </script>
 
 <template>
@@ -12,7 +22,7 @@ const props = defineProps(["post"])
         <RouterLink :to="'/posts/' + post.id">
             <h2 style="text-align: start;">{{ post.title }}</h2>
         </RouterLink>
-           <div class="post-content">
+        <div class="post-content">
             {{ post.content }}
         </div>
         <div v-if="post.pets && post.pets.length > 0">
@@ -32,9 +42,10 @@ const props = defineProps(["post"])
         <hr>
         <div class="btn-group tab-list-col">
             <span class="tab btn-action"><i class="bi bi-hand-thumbs-up"></i> <span class="tab-text">Like</span></span>
-            <span class="tab btn-action"><i class="bi bi-chat"></i> <span class="tab-text">Comment</span></span>
+            <span class="tab btn-action" @click="openDetailPost"><i class="bi bi-chat"></i> <span class="tab-text">Comment</span></span>
             <span class="tab btn-action"><i class="bi bi-share"></i> <span class="tab-text">Share</span></span>
         </div>
+        <PostDetail v-if="showDetailPost" :idPost="post.id" @close="closeDetailPost"></PostDetail>
     </div>
 </template>
 

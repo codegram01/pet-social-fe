@@ -63,6 +63,8 @@ const close = () => {
     padding-top: 12px;
     border-top: 1px solid var(--c-border);
     border-bottom: 1px solid var(--c-border);
+    max-height: calc(100vh - 120px);
+    overflow-y: auto;
 }
 
 .bottom {
