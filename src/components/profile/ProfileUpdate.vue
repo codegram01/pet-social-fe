@@ -22,6 +22,7 @@ onBeforeMount(async ()=> {
         if(isCreatedProfile.value){
             try {
                 await profile_get_api(auth_user.value.profile_id).then(res => {
+                    res.birthday = res.birthday.split("T")[0]
                     dataProfile.value = res
                 })
             } catch (error) {
@@ -82,8 +83,8 @@ const updateProfile = async () => {
                     gender: dataProfile.value.gender,
                     specie_type: dataProfile.value.specie_type
                 }).then(res => {
+                    router.push(`/profile/pet/${res.id}`)
                     close();
-                    emits("createProfilePet", res)
                 })
             } catch (error) {
                 console.log(error)
@@ -104,6 +105,29 @@ const close = () => {
     emits("close")
 }
 
+const labelTitle = computed(()=> {
+    switch(props.type){
+        case "PROFILE":
+            if(isCreatedProfile.value) {
+                return "Update Profile"
+            } else {
+                return "Create Profile"
+            }
+            break;
+        case "PET":
+            return "Create Pet"
+        case "PET_UPDATE":
+            return "Update Pet"
+    }
+})
+
+const disableDate = computed(()=> {
+    let now = new Date(Date.now())
+
+    const nowISO = now.toISOString()
+    const nowYMD = nowISO.split("T")[0]
+    return nowYMD
+})
 
 </script>
 
@@ -114,7 +138,7 @@ const close = () => {
         <form class="form" @submit.prevent="updateProfile">
             <Popup @close="close">
                 <template v-slot:header>
-                    Update profile
+                    {{ labelTitle }}
                 </template>
                 <template v-slot:body>
                     <label>Name</label>
@@ -138,16 +162,19 @@ const close = () => {
                         <div class="form-group">
                             <label>Specie type</label>
                             <input class="form-control"  type="text" v-model="dataProfile.specie_type">
+                            <div class="error"></div>
                         </div>
                     </div>
                     <div class="form-group">
                         <label>Birthday</label>
-                        <input class="form-control"  type="date" v-model="dataProfile.birthday">
+                        <input class="form-control" id="birthdayElm"  type="date" :max="disableDate" v-model="dataProfile.birthday">
+                        <div class="error"></div>
                     </div>
                     <div class="checkbox">
                         <label>
                             <input v-model="dataProfile.gender" type="checkbox" name="remember" value="1"> Male
                         </label>
+                        <div class="error"></div>
                     </div>
                 </template>
                 <template v-slot:bottom>

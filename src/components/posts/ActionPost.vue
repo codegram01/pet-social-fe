@@ -7,8 +7,6 @@ import CardUser from "@/components/profile/CardUser.vue";
 const props = defineProps(["idPost", "likes", "comments"])
 const emits = defineEmits(["updateLikes", "newComment"])
 
-
-
 const likesLength = computed(()=> {
     return props.likes.length
 })
@@ -54,7 +52,7 @@ const postComment = async () => {
         <div class="action-nav">
             <button @click="likePost" 
                 class="btn"
-                :class="{'btn-primary': isLiked}"
+                :class="{'btn-primary': isLiked, 'btn--light': !isLiked}"
             >
                 <i v-if="!isLiked" class="bi bi-hand-thumbs-up"></i>
                 <i v-else class="bi bi-hand-thumbs-up-fill"></i>
@@ -74,6 +72,11 @@ const postComment = async () => {
 .action-nav {
     display: flex;
     align-items: center;
+    height: 42px;
+}
+
+.action-nav * {
+    height: 100%;
 }
 
 .input-comment {

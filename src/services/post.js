@@ -38,6 +38,24 @@ export const post_detail_api = async (id) => {
     }
 }
 
+export const post_delete_api = async (id) => {
+    try {
+        return await api("DELETE", `/posts/${id}`)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
+export const post_update_api = async (id, data) => {
+    try {
+        return await api("PATCH", `/posts/${id}`, data)
+    } catch (error) {
+        process_error(error)
+        throw error
+    }
+}
+
 export const post_like_api = async (idPost) => {
     try {
         return await api("POST", `/posts/${idPost}/like`)

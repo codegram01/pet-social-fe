@@ -44,6 +44,10 @@ const openCreatePost = () => {
 const closeCreatePost = () => {
     showCreatePost.value = false
 }
+
+const deletePost = (index) => {
+    posts.value.splice(index, 1)
+}
 </script>
 
 <template>
@@ -101,7 +105,12 @@ const closeCreatePost = () => {
                 </div>
               
             </div>
-            <ItemPost v-for="post of posts" :key="post.id" :post="post"/>
+            <ItemPost 
+                v-for="(post, index) of posts" 
+                :key="post.id" 
+                :post="post"
+                @deletePost="deletePost(index)"
+            />
           
    
         </div>

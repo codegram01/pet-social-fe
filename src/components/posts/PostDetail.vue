@@ -1,57 +1,58 @@
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
 import {useRoute} from "vue-router";
-import { post_detail_api } from "@/services/post";
+import { post_detail_api, post_update_api, post_delete_api } from "@/services/post";
 import ActionPost from "@/components/posts/ActionPost.vue";
 import CardUser from "@/components/profile/CardUser.vue";
 import Popup from "@/components/common/Popup.vue";
-const emits = defineEmits(["close", "createPost"]);
+import { openPopup } from "@/stores/popup";
 
-const props = defineProps(["idPost"])
-
-const idPost = computed(()=> {
-    return props.idPost
-})
-
-const post = ref(null)
-const getDetailPost = async () => {
-    try {
-        await post_detail_api(idPost.value).then(res => {
-            post.value = res
-            console.log(res)
-        })
-    } catch (error) {
-        console.log(error)
-    }
-}
-
-onBeforeMount(async() => {
-    await getDetailPost();
-
-    isDoneLoad.value = true
-})
-
-const isDoneLoad = ref(false)
+const emits = defineEmits(["close", "createPost", "deletePost"]);
+const props = defineProps(["post"])
 
 const updateLikes = (likes) => {
-    post.value.post_likes = likes
+    props.post.post_likes = likes
 }
 
 const addNewComment = (comment) => {
-    post.value.post_comments.unshift(comment);
+    props.post.post_comments.unshift(comment);
 };
 
 const close = () => {
     emits("close")
 }
 
+const deletePost = () => {
+    openPopup({
+        title: "Confirm",
+        content: "Are you sure want to delete this post",
+        confirm: async ()=> {
+            try {
+                await post_delete_api(props.post.id).then(res => {
+                    emits("deletePost")
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+}
+
+
 </script>
 
 <template>
-    <div v-if="isDoneLoad" class="main-center">
+    <div class="main-center">
         <Popup @close="close" container-popup-max-width="500px">
             <template v-slot:header>
-                {{ "Bài viết" }}
+                <div>
+                    <span>{{ "Bài viết" }}</span>
+
+                    <div>
+                        <button>Update</button>
+                        <button @click="deletePost">Delete</button>
+                    </div>
+                </div>
             </template>
             <template v-slot:body>
                 <div v-if="post">
