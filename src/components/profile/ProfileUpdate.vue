@@ -5,14 +5,14 @@ import { pet_create_api, detail_pet_api, pet_update_api } from "@/services/pet"
 import { isCreatedProfile, auth_user } from "@/stores/auth"
 import { useRoute, useRouter } from "vue-router";
 import Popup from "../common/Popup.vue";
-const emits = defineEmits(["close", "updateProfile"]);
+const emits = defineEmits(["close", "updateProfile", "createProfilePet"]);
 
 const router = useRouter();
 const route = useRoute();
 const props = defineProps(["type"])
 
 const idPet = computed(()=> {
-    return route.params.idPet
+    return route.params.idUser
 })
 
 // avatar 
@@ -82,7 +82,8 @@ const updateProfile = async () => {
                     gender: dataProfile.value.gender,
                     specie_type: dataProfile.value.specie_type
                 }).then(res => {
-                    router.push(`/profile/pet/${res.id}`)
+                    close();
+                    emits("createProfilePet", res)
                 })
             } catch (error) {
                 console.log(error)

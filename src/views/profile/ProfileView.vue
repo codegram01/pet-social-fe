@@ -193,6 +193,14 @@ const updateProfile = (p) => {
     profile.value.birthday = p.birthday
 }
 
+const createProfilePet = (pet) => {
+    profile.value.name = pet.name
+    profile.value.description = pet.description
+    profile.value.specie_type = pet.specie_type
+    profile.value.birthday = pet.birthday
+    profile.value.gender = pet.gender
+}
+
 </script>
 
 <template>
@@ -209,23 +217,22 @@ const updateProfile = (p) => {
                             {{ profile.name }}
                         </div>
                         <div class="profile-top-action-right">
-                            <div v-if="!isMyProfile">
+                            <div class="action-buttons">
+                                <div v-if="isMyPet">
+                                    <button class="btn btn-primary btn-create" @click="openUpdateProfile('PET_UPDATE')">Update</button>
+                                </div>
+                                <div v-if="!isMyProfile">
                                 <button @click="follow" :class="{ 'btn-follow--highlight': isFollowing }">
                                     <span v-if="!isFollowing">Follow</span>
                                     <span v-else>Following</span>
                                 </button>
-                                
                                 <RouterLink class="btn btn-primary" style="margin-left: 12px;" v-if="type == 'PROFILE'" :to="`/chats/${profile.id}`">Chats</RouterLink>
                             </div>
-                            <div v-if="isMyProfile && !isMyPet && profile.pets && profile.pets.length > 0">
-                                <button class="btn btn-primary btn-create" @click="openUpdateProfile('PROFILE')">Update</button>
                             </div>
-                            <div v-if="isMyProfile && !isMyPet && profile.pets.length === 0" class="action-buttons">
+                        
+                            <div v-if="isMyProfile" class="action-buttons">
                                 <button class="btn btn-primary btn-create" @click="openUpdateProfile('PROFILE')">Update</button>
                                 <button class="btn btn-primary btn-create" @click="openUpdateProfile('PET')">Create Pet</button>
-                            </div>
-                            <div class="action-buttons" v-if="isMyPet">
-                                <RouterLink :to="`/profile/pet/${profile.id}/update`">Update</RouterLink>
                             </div>
                         </div>
                     </div>
@@ -235,6 +242,7 @@ const updateProfile = (p) => {
                     :type="updateProfileType" 
                     @close="closeUpdateProfile"
                     @updateProfile="updateProfile"
+                    @createProfilePet="createProfilePet"
                 />
                 
             </div>
@@ -339,8 +347,6 @@ const updateProfile = (p) => {
     border: 5px solid white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
-
-
 
 .action-buttons {
     display: flex;

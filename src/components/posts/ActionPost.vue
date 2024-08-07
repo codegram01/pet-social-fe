@@ -5,7 +5,7 @@ import { myProfileId } from "@/stores/auth";
 import CardUser from "@/components/profile/CardUser.vue";
 
 const props = defineProps(["idPost", "likes", "comments"])
-const emits = defineEmits(["updateLikes"])
+const emits = defineEmits(["updateLikes", "newComment"])
 
 
 
@@ -37,13 +37,9 @@ const inpComment = ref("")
 const postComment = async () => {
     if(inpComment.value && inpComment.value.length < 2000){
         try {
-            await post_comment_api(props.idPost, {
-                content: inpComment.value
-            }).then(res => {
-                inpComment.value = ""
-
-                props.comments.unshift(res)
-            })
+            const res = await post_comment_api(props.idPost, { content: inpComment.value });
+            inpComment.value = "";
+            emits("newComment", res);
         } catch (error) {
             console.log(error)
         }
@@ -69,14 +65,6 @@ const postComment = async () => {
                 <input v-model="inpComment" type="text" placeholder="Enter comment" class="form-control input-comment">
                 <button type="submit" class="btn btn-primary btn-sm">Comment</button>
            </form>
-        </div>
-        <br>
-        <div class="comments">
-            <div v-for="comment of comments" :key="comment.id">
-                <CardUser :profile_id="comment.profile_id"/>
-                <p>{{ comment.content }}</p>
-                <br>
-            </div>
         </div>
     </div>
 </template>
