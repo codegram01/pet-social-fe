@@ -6,9 +6,12 @@ import ActionPost from "@/components/posts/ActionPost.vue";
 import CardUser from "@/components/profile/CardUser.vue";
 import Popup from "@/components/common/Popup.vue";
 import { openPopup } from "@/stores/popup";
+import PostCreate from "@/components/posts/PostCreate.vue";
 
 const emits = defineEmits(["close", "createPost", "deletePost"]);
 const props = defineProps(["post"])
+
+console.log(props.post)
 
 const updateLikes = (likes) => {
     props.post.post_likes = likes
@@ -17,6 +20,22 @@ const updateLikes = (likes) => {
 const addNewComment = (comment) => {
     props.post.post_comments.unshift(comment);
 };
+
+const showUpdatePost = ref(false)
+const openUpdatePost = () => {
+    showUpdatePost.value = true
+}
+const closeUpdatePost = () => {
+    showUpdatePost.value = false
+}
+
+const updatePost = (post) => {
+    props.post.content = post.content,
+    props.post.title = post.title,
+    props.post.files = post.files,
+    props.post.pets = post.pets,
+    props.post.hashtags = post.hashtags
+}
 
 const close = () => {
     emits("close")
@@ -38,6 +57,17 @@ const deletePost = () => {
     })
 }
 
+const showDropdown = ref(false)
+const openDropdown = () => {
+    showDropdown.value = true;
+}
+const closeDropdown = () => {
+    showDropdown.value = false;
+}
+const switchDropdown = () => {
+    showDropdown.value = !showDropdown.value
+}
+
 
 </script>
 
@@ -45,13 +75,27 @@ const deletePost = () => {
     <div class="main-center">
         <Popup @close="close" container-popup-max-width="500px">
             <template v-slot:header>
-                <div>
+                <div class="post-header">
                     <span>{{ "Bài viết" }}</span>
-
-                    <div>
-                        <button>Update</button>
-                        <button @click="deletePost">Delete</button>
+                    <div class="">
+                        <span class="ellipsis" @click="switchDropdown">
+                            <i class="bi bi-three-dots"></i>
+                        </span>
+                        <div class="hover-popup" v-if="showDropdown">
+                            <div class="hover-popup" v-if="showDropdown">
+                            <div class="popup" @click="closeDropdown">
+                                <span class="popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i>Update</span>
+                                <span class="popup-tab" @click="deletePost"><i class="bi bi-trash3"></i>Delete</span>
+                            </div>
+                        </div>
+                        </div>
                     </div>
+                    <PostCreate 
+                        v-if="showUpdatePost" 
+                        :data-post="props.post" 
+                        @updatePost="updatePost" 
+                        @close="closeUpdatePost"
+                    />
                 </div>
             </template>
             <template v-slot:body>
@@ -143,4 +187,41 @@ const deletePost = () => {
     margin-top: 5px;
 }
 
+.hover-popup {
+    position: relative;
+}
+
+.ellipsis {
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.popup {
+    position: absolute;
+    width: 200px;
+    background-color: white;
+    z-index: 11;
+    display: flex;
+    flex-flow: column;
+    border-radius: 6px;
+    border: 1px solid #eee;
+    right: 0px;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3)
+}
+
+.popup-tab {
+    padding: 12px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.popup-tab:hover {
+    background-color: #f0f0f0;
+}
+
+.post-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
 </style>
