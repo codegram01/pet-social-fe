@@ -83,7 +83,12 @@ const updateProfile = async () => {
                     gender: dataProfile.value.gender,
                     specie_type: dataProfile.value.specie_type
                 }).then(res => {
-                    router.push(`/profile/pet/${res.id}`)
+                    if(route.path.includes('/pet/')){
+                        emits("createProfilePet", res)
+                    } else {
+                        router.push(`/profile/pet/${res.id}`)
+                    }
+                    
                     close();
                 })
             } catch (error) {

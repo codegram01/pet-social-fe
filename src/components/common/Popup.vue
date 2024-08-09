@@ -60,15 +60,16 @@ const close = () => {
 }
 
 .body {
-    padding-top: 12px;
+    padding: 12px;
     border-top: 1px solid var(--c-border);
     border-bottom: 1px solid var(--c-border);
-    max-height: calc(100vh - 120px);
+    max-height: calc(100vh - 220px);
     overflow-y: auto;
 }
 
 .bottom {
     padding-top: 12px;
     display: flex;
+    justify-content: flex-end;
 }
 </style>

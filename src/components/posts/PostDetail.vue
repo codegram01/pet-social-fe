@@ -7,6 +7,7 @@ import CardUser from "@/components/profile/CardUser.vue";
 import Popup from "@/components/common/Popup.vue";
 import { openPopup } from "@/stores/popup";
 import PostCreate from "@/components/posts/PostCreate.vue";
+import MenuDropdown from "../common/MenuDropdown.vue";
 
 const emits = defineEmits(["close", "createPost", "deletePost"]);
 const props = defineProps(["post"])
@@ -48,7 +49,8 @@ const deletePost = () => {
         confirm: async ()=> {
             try {
                 await post_delete_api(props.post.id).then(res => {
-                    emits("deletePost")
+                    emits("deletePost", res)
+                    console.log(res)
                 })
             } catch (error) {
                 console.log(error)
@@ -56,19 +58,6 @@ const deletePost = () => {
         }
     })
 }
-
-const showDropdown = ref(false)
-const openDropdown = () => {
-    showDropdown.value = true;
-}
-const closeDropdown = () => {
-    showDropdown.value = false;
-}
-const switchDropdown = () => {
-    showDropdown.value = !showDropdown.value
-}
-
-
 </script>
 
 <template>
@@ -77,19 +66,12 @@ const switchDropdown = () => {
             <template v-slot:header>
                 <div class="post-header">
                     <span>{{ "Bài viết" }}</span>
-                    <div class="">
-                        <span class="ellipsis" @click="switchDropdown">
-                            <i class="bi bi-three-dots"></i>
-                        </span>
-                        <div class="hover-popup" v-if="showDropdown">
-                            <div class="hover-popup" v-if="showDropdown">
-                            <div class="popup" @click="closeDropdown">
-                                <span class="popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i>Update</span>
-                                <span class="popup-tab" @click="deletePost"><i class="bi bi-trash3"></i>Delete</span>
-                            </div>
-                        </div>
-                        </div>
-                    </div>
+                    <MenuDropdown :icon="`bi bi-three-dots`">
+                        <template #options>
+                            <span class="popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i>Update</span>
+                            <span class="popup-tab" @click="deletePost"><i class="bi bi-trash3"></i>Delete</span>
+                        </template>
+                    </MenuDropdown>
                     <PostCreate 
                         v-if="showUpdatePost" 
                         :data-post="props.post" 
@@ -112,7 +94,7 @@ const switchDropdown = () => {
                     <div class="comments">
                         <div v-if="post.post_comments.length > 0">
                             <div v-for="comment of post.post_comments" :key="comment.id">
-                                <CardUser :profile_id="comment.profile_id" />
+                                <CardUser :profile_id="comment.profile_id" ></CardUser>
                                 <div class="comment-content">
                                     <p class="comment-text">{{ comment.content }}</p>
                                     <span class="comment-time">{{ comment.created_at }}</span>
@@ -171,7 +153,8 @@ const switchDropdown = () => {
     background-color: #f0f2f5;
     border-radius: 18px;
     padding: 10px;
-    margin-left: 32px;
+    margin-left: 46px;
+    margin-top: -12px;
     max-width: 80%;
 }
 
@@ -187,30 +170,7 @@ const switchDropdown = () => {
     margin-top: 5px;
 }
 
-.hover-popup {
-    position: relative;
-}
-
-.ellipsis {
-  cursor: pointer;
-  margin-left: auto;
-}
-
-.popup {
-    position: absolute;
-    width: 200px;
-    background-color: white;
-    z-index: 11;
-    display: flex;
-    flex-flow: column;
-    border-radius: 6px;
-    border: 1px solid #eee;
-    right: 0px;
-    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3)
-}
-
 .popup-tab {
-    padding: 12px;
     font-size: 14px;
     cursor: pointer;
 }

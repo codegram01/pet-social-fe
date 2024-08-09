@@ -46,26 +46,6 @@ const switchDropdown = () => {
     cursor: pointer;
 }
 
-.hover-popup {
-    position: relative;
-}
-
-.popup {
-    position: absolute;
-    width: 200px;
-    background-color: white;
-    z-index: 11;
-    display: flex;
-    flex-flow: column;
-    border-radius: 6px;
-    border: 1px solid #eee;
-    right: 0px;
-}
-
-.popup-tab {
-    padding: 12px;
-}
-
 .overlay {
     position: fixed;
     width: 100%;

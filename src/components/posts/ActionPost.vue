@@ -82,4 +82,8 @@ const postComment = async () => {
 .input-comment {
     margin-left: 12px;
 }
+
+.form-control {
+    margin: 0px 12px;
+}
 </style>

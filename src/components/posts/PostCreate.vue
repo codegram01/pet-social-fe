@@ -193,7 +193,7 @@ const close = () => {
 
                 </template>
                 <template v-slot:bottom>
-                    <button type="submit" style="margin-left: auto;">{{ labelTitle }}</button>
+                    <button type="submit">{{ labelTitle }}</button>
                     <button type="button" @click="close" class="btn--light">Cancel</button>
                 </template>
             </Popup>
