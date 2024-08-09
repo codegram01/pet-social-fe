@@ -1,13 +1,13 @@
 <script setup>
 import { ref, computed, onBeforeMount } from "vue";
-import {useRoute} from "vue-router";
-import { post_detail_api, post_update_api, post_delete_api } from "@/services/post";
 import ActionPost from "@/components/posts/ActionPost.vue";
 import CardUser from "@/components/profile/CardUser.vue";
 import Popup from "@/components/common/Popup.vue";
-import { openPopup } from "@/stores/popup";
 import PostCreate from "@/components/posts/PostCreate.vue";
 import MenuDropdown from "../common/MenuDropdown.vue";
+import { auth_user } from "@/stores/auth";
+import ListPet from "@/components/profile/ListPet.vue";
+import ListHashtag from "./ListHashtag.vue";
 
 const emits = defineEmits(["close", "createPost", "deletePost"]);
 const props = defineProps(["post"])
@@ -43,21 +43,16 @@ const close = () => {
 }
 
 const deletePost = () => {
-    openPopup({
-        title: "Confirm",
-        content: "Are you sure want to delete this post",
-        confirm: async ()=> {
-            try {
-                await post_delete_api(props.post.id).then(res => {
-                    emits("deletePost", res)
-                    console.log(res)
-                })
-            } catch (error) {
-                console.log(error)
-            }
-        }
-    })
+    emits("deletePost")
 }
+
+const isMyPost = computed(() => {
+    if (auth_user.value.profile_id == props.post.profile_id) {
+        return true;
+    }
+
+    return false
+})
 </script>
 
 <template>
@@ -66,7 +61,7 @@ const deletePost = () => {
             <template v-slot:header>
                 <div class="post-header">
                     <span>{{ "Bài viết" }}</span>
-                    <MenuDropdown :icon="`bi bi-three-dots`">
+                    <MenuDropdown :icon="`bi bi-three-dots`" v-if="isMyPost">
                         <template #options>
                             <span class="popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i>Update</span>
                             <span class="popup-tab" @click="deletePost"><i class="bi bi-trash3"></i>Delete</span>
@@ -84,9 +79,16 @@ const deletePost = () => {
                 <div v-if="post">
                     <CardUser :profile_id="post.profile_id" />
                     <h1>{{ post.title }}</h1>
-                    <br>
                     <div class="dev_page_content">
                         <p>{{ post.content }}</p>
+
+                        <div v-if="post.pets && post.pets.length > 0">
+                            <ListPet :pet_ids="post.pets" :hideDesc="true"/>
+                        </div>
+                        <div v-if="post.hashtags" style="margin-top: 12px;">
+                            <ListHashtag :hashtags="post.hashtags"/>
+                        </div>
+
                         <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">
                     </div>
                     

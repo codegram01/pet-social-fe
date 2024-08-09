@@ -16,18 +16,41 @@ const post = ref({
     title: "",
     content: "",
     files: [],
-    pets: [],
+    pets: [],    // Pet được tag trong bài viết
     hashtags: []
 })
 
-const pets = ref([])
+const pets = ref([])    // Tất cả Pet của người đó 
 onBeforeMount(async () => {
+    console.log("-----------> open post create")
+
     await my_pet_api().then(res => {
         pets.value = res
     })
     if (props.dataPost) {
-        post.value = { ...props.dataPost };
+        post.value.title = props.dataPost.title
+        post.value.content = props.dataPost.content
+        post.value.files = [...props.dataPost.files]
+        post.value.pets = [...props.dataPost.pets]
+    
+        for (const tag of props.dataPost.hashtags) {
+            post.value.hashtags.push({
+                tag: tag.tag
+            })
+        }
+
+        for(const petSelected of post.value.pets) {
+            // pet.id
+
+            const indexPetSelect = pets.value.findIndex(pet => pet.id == petSelected.id)
+
+            if (indexPetSelect >= 0) {
+                pets.value[indexPetSelect]._chose = true
+            }
+        }
     }
+
+    
 })
 
 
@@ -86,13 +109,13 @@ const savePost = async () => {
                     hashtags: post.value.hashtags
                 }
             ).then(res => {
-                console.log('da update', res)
-                close();
                 emits("updatePost", res)
+                close();                
             });
         } else {
-            await post_create_api(post.value).then(res => {
-            // router.push("/posts")
+            await post_create_api(post.value).then(async res => {
+                emits("createPost", res)
+                close();
             })
         }
         
@@ -100,6 +123,9 @@ const savePost = async () => {
         console.log(error)
     }
 }
+
+const delay = ms => new Promise(res => setTimeout(res, ms));
+
 
 const labelTitle = computed(() => {
     if(props.dataPost){

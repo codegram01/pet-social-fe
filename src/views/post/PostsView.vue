@@ -48,6 +48,10 @@ const closeCreatePost = () => {
 const deletePost = (index) => {
     posts.value.splice(index, 1)
 }
+
+const createPost = (post) => {
+    posts.value.unshift(post)  
+}
 </script>
 
 <template>
@@ -123,7 +127,7 @@ const deletePost = (index) => {
                 <img style="width: 100%;" src="https://fly.io/phx/ui/images/fly-globe-cb332f77ddb429aa3ef4e0a2c6c592ba.png?vsn=d" alt="">
             </div>
         </div>
-        <PostCreate v-if="showCreatePost" @close="closeCreatePost"/>
+        <PostCreate v-if="showCreatePost" @close="closeCreatePost" @createPost="createPost"/>
     </div>
 </template>
 

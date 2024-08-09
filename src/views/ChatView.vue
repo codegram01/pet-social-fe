@@ -70,15 +70,18 @@ watch(()=> idConversation.value, async () => {
             <div class="tableft-nav">
                 Chats
             </div>
-            <RouterLink 
-                v-for="con of conversations" 
-                :key="con.id"
-                :to="`/chats/${con.id_guest}`"
-                class="conversation"
-                :class="{'conversation--active': con.id == idConversationDetail }"
-            >
-                {{ con.name }}
-            </RouterLink>
+            <div class="tableft-tabs">
+                <RouterLink 
+                    v-for="con of conversations" 
+                    :key="con.id"
+                    :to="`/chats/${con.id_guest}`"
+                    class="conversation"
+                    :class="{'conversation--active': con.id == idConversationDetail }"
+                >
+                    <i class="bi bi-person-fill"></i>
+                    <span style="margin-left: 12px;">{{ con.name }}</span>
+                </RouterLink>
+            </div>
        </div>
        <div class="main-center">
             <ChatDetail v-if="conversationDetail" :conversation="conversationDetail" />
@@ -91,26 +94,32 @@ watch(()=> idConversation.value, async () => {
 
 }
 
-.tableft {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 272px;
-    height: 100%;
-    background: white;
-    border-right: 1px solid black;
+.main-left {
+    padding: unset;
+    position: relative;
+    z-index: 3;
+    box-shadow: 2px 0 5px -2px rgba(0, 0, 0, 0.2);
 }
 
 .tableft-nav {
+    position: absolute;
     width: 100%;
     height: 52px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--c-border);
     font-size: 18px;
     font-weight: 600;
     display: flex;
     align-items: center;
     padding: 0px 12px;
-    background: #faebd7;
+    z-index: 2;
+    box-shadow: 0 1px 2px var(--c-shadow);
+}
+
+.tableft-tabs {
+    position: absolute;
+    width: 100%;
+    height: calc(100% - 52px);
+    top: 52px;
 }
 
 .conversation {
@@ -118,7 +127,7 @@ watch(()=> idConversation.value, async () => {
     height: 52px;
     display: flex;
     align-items: center;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--c-border);
     padding: 0px 12px;
 }
 
@@ -132,5 +141,14 @@ watch(()=> idConversation.value, async () => {
 
 .conversation--active:hover {
     background-color: aquamarine;
+}
+
+.main-center {
+    max-width: unset;
+    padding: unset;
+}
+
+.main {
+    background-color: var(--c-white);
 }
 </style>

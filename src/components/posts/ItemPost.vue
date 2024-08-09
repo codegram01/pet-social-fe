@@ -4,10 +4,11 @@ import CardUser from "@/components/profile/CardUser.vue";
 import ListPet from "@/components/profile/ListPet.vue";
 import ListHashtag from "./ListHashtag.vue";
 import PostDetail from "./PostDetail.vue";
-import { myProfileId } from "@/stores/auth";
+import { auth_user, myProfileId } from "@/stores/auth";
 import { post_like_api, post_comment_api, post_delete_comment_api, post_delete_api } from "@/services/post";
 import MenuDropdown from "../common/MenuDropdown.vue";
 import PostCreate from "@/components/posts/PostCreate.vue";
+import { openPopup } from "@/stores/popup";
 
 const props = defineProps(["post"])
 const emits = defineEmits(["deletePost"])
@@ -50,10 +51,6 @@ const likePost = async () => {
     }
 }
 
-const handleDeletePost = () => {
-    emits("deletePost")
-}
-
 const showUpdatePost = ref(false)
 const openUpdatePost = () => {
     showUpdatePost.value = true
@@ -70,6 +67,29 @@ const updatePost = (post) => {
     props.post.hashtags = post.hashtags
 }
 
+const handleDeletePost = () => {
+    openPopup({
+        title: "Confirm",
+        content: "Are you sure want to delete this post",
+        confirm: async ()=> {
+            try {
+                await post_delete_api(props.post.id).then(res => {
+                    emits("deletePost")
+                })
+            } catch (error) {
+                console.log(error)
+            }
+        }
+    })
+}
+
+const isMyPost = computed(() => {
+    if (auth_user.value.profile_id == props.post.profile_id) {
+        return true;
+    }
+
+    return false
+})
 </script>
 
 <template>
@@ -77,7 +97,7 @@ const updatePost = (post) => {
         <div> 
             <div class="post-header">
                 <CardUser :profile_id="post.profile_id" />
-                    <MenuDropdown :icon="`bi bi-three-dots`">
+                    <MenuDropdown :icon="`bi bi-three-dots`" v-if="isMyPost">
                         <template #options>
                             <span class="popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i>Update</span>
                             <span class="popup-tab" @click="handleDeletePost"><i class="bi bi-trash3"></i>Delete</span>
@@ -99,7 +119,7 @@ const updatePost = (post) => {
             <div v-if="post.pets && post.pets.length > 0">
                 <ListPet :pet_ids="post.pets" :hideDesc="true"/>
             </div>
-            <div v-if="post.hashtags">
+            <div v-if="post.hashtags" style="margin-top: 12px;">
                 <ListHashtag :hashtags="post.hashtags"/>
             </div>
             <img class="post-img" v-for="file of post.files" :key="file.id" :src="$loadFile(file.link)" alt="">

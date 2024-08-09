@@ -4,11 +4,19 @@ import { computed, nextTick, onBeforeMount, onMounted, ref, watch } from "vue";
 import AvatarMessage from "./AvatarMessage.vue";
 import { messageSocket } from "@/stores/socket";
 import ActionMess from "./ActionMess.vue"
+import { auth_user } from "@/stores/auth";
 
 onBeforeMount(()=> {
-    console.log("--------------> onbeforemount chat detail")
 })
 
+
+const isMyMess = (message) => {
+    if (auth_user.value.profile_id == message.profile_id) {
+        return true;
+    }
+
+    return false
+}
 
 
 watch(() => messageSocket.value, ()=> {
@@ -138,32 +146,36 @@ const saveEditMess = async () => {
         </div>
         <div class="chat-message" ref="chatMessageElm" id="chatMessageElm">
             <div class="message-div" v-for="message of conversation.messages" :key="message.id">
-                <AvatarMessage :profile_id="message.profile_id" />
-                <div>
-                    {{ message.content }}
+                <div :class="{'message-div-content--right': isMyMess(message)}">
+                    <AvatarMessage :profile_id="message.profile_id" />
+                    <div class="mess-content" :class="{'my-mess-content': isMyMess(message)}">
+                        {{ message.content }}
+                    </div>
+                    
+                    <ActionMess :message="message" 
+                        @deleteMess="deleteMess"
+                        @openEditMess="openEditMess"
+                    />
                 </div>
-                
-                <ActionMess :message="message" 
-                    @deleteMess="deleteMess"
-                    @openEditMess="openEditMess"
-                />
             </div>
         </div>
         <div class="chat-send">
-            <textarea 
-                class="input-send" 
-                placeholder="Enter message..." 
-                v-model="contentMessage"
-                v-on:keyup.enter="sendMessage"
-                v-if="!messageNeedEdit"
-            ></textarea>
-            <textarea 
-                class="input-send" 
-                placeholder="Enter message..." 
-                v-model="messageNeedEdit.content"
-                v-on:keyup.enter="saveEditMess"
-                v-else
-            ></textarea>
+            <div class="card">
+                <textarea 
+                    class="input-send" 
+                    placeholder="Enter message..." 
+                    v-model="contentMessage"
+                    v-on:keyup.enter="sendMessage"
+                    v-if="!messageNeedEdit"
+                ></textarea>
+                <textarea 
+                    class="input-send" 
+                    placeholder="Enter message..." 
+                    v-model="messageNeedEdit.content"
+                    v-on:keyup.enter="saveEditMess"
+                    v-else
+                ></textarea>
+            </div>
         </div>
     </div>
 </template>
@@ -181,11 +193,12 @@ const saveEditMess = async () => {
 .chat-nav {
     height: 52px;
     width: 100%;
-    background: #faebd7;
     display: flex;
     align-items: center;
     padding: 0px 24px;
-    border-bottom: 1px solid black;
+    border-bottom: 1px solid var(--c-border);
+    box-shadow: 0 1px 2px var(--c-shadow);
+    z-index: 2;
 }
 
 .chat-nav-name {
@@ -197,7 +210,7 @@ const saveEditMess = async () => {
     width: 100%;
     height: 100%;
     flex: 1;
-    background-color: white;
+    background-color: var(--c-white-light);
     overflow-y: scroll;
     max-height: 100%;
     padding: 24px;
@@ -205,22 +218,51 @@ const saveEditMess = async () => {
 
 .chat-send {
     width: 100%;
-    height: 120px;
-    background-color: #faebd7;
-    border-top: 1px solid black;
+    height: 132px;
+    /* border-top: 1px solid var(--c-border); */
     padding: 24px;
+    background-color: var(--c-white-light);
+}
+
+.chat-send .card {
+    height: 100%;
 }
 
 .input-send {
     width: 100%;
     height: 100%;
+    border: none;
+    outline: none;
+    font-size: 16px;
 }
 
 .message-div {
     position: relative;
+    display: flex;
+    flex-flow: column;
 }
 
 .message-div + .message-div {
     margin-top: 12px;
+}
+
+.mess-content {
+    background-color: white;
+    display: inline-block;
+    padding: 8px 16px;
+    border-radius: 24px;
+    margin-left: 38px;
+    font-size: 16px;
+    max-width: 400px;
+    margin-top: -6px;
+}
+
+.message-div-content--right {
+    margin-left: auto;
+}
+
+.my-mess-content {
+    background-color: var(--c-primary);
+    color: var(--c-white);
 }
 </style>
