@@ -30,10 +30,12 @@ const confirm = () => {
 
             <template v-slot:body>
                 <div>{{ dataPopup.content }}</div>
+            </template>
 
-                <div v-if="dataPopup.confirm">
-                    <button @click="cancel">Cancel</button>
+            <template v-slot:bottom>
+                <div v-if="dataPopup.confirm" style="margin-left: auto;">
                     <button @click="confirm">Confirm</button>
+                    <button class="btn--light" @click="cancel">Cancel</button>
                 </div>
             </template>
         </Popup>

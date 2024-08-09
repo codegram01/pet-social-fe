@@ -1,21 +1,16 @@
 <script setup>
-import { onBeforeMount, ref } from "vue"
-import { post_create_api } from "@/services/post"
+import { onBeforeMount, ref, computed } from "vue"
+import { post_create_api, post_update_api } from "@/services/post"
 import { files_upload_api } from "@/services/file"
 import { my_pet_api } from "@/services/pet"
 import { useRouter } from "vue-router";
 import { g_validation } from "@/modules/validation";
 import Popup from "@/components/common/Popup.vue";
 import HashtagChose from "./HashtagChose.vue";
-const emits = defineEmits(["close", "createPost"]);
+const emits = defineEmits(["close", "createPost", "updatePost"]);
+const props = defineProps(["dataPost"])
 
-
-const pets = ref([])
-onBeforeMount(async () => {
-    await my_pet_api().then(res => {
-        pets.value = res
-    })
-})
+const isEditMode = computed(() => {return !!props.dataPost});
 
 const post = ref({
     title: "",
@@ -24,6 +19,18 @@ const post = ref({
     pets: [],
     hashtags: []
 })
+
+const pets = ref([])
+onBeforeMount(async () => {
+    await my_pet_api().then(res => {
+        pets.value = res
+    })
+    if (props.dataPost) {
+        post.value = { ...props.dataPost };
+    }
+})
+
+
 const router = useRouter()
 
 const errTitle = ref("");
@@ -54,8 +61,9 @@ const checkContent = () => {
     }
 }
 
+console.log(props.dataPost)
 
-const createPost = async () => {
+const savePost = async () => {
     if (!checkTitle() || !checkContent()) {
         return
     }
@@ -68,13 +76,37 @@ const createPost = async () => {
         }
     }
     try {
-        await post_create_api(post.value).then(res => {
+        if (isEditMode.value) {
+            await post_update_api( props.dataPost.id,
+                {
+                    title: post.value.title,
+                    content: post.value.content,
+                    files: post.value.files,
+                    pets: post.value.pets,
+                    hashtags: post.value.hashtags
+                }
+            ).then(res => {
+                console.log('da update', res)
+                close();
+                emits("updatePost", res)
+            });
+        } else {
+            await post_create_api(post.value).then(res => {
             // router.push("/posts")
-        })
+            })
+        }
+        
     } catch (error) {
         console.log(error)
     }
 }
+
+const labelTitle = computed(() => {
+    if(props.dataPost){
+        return "Update Post"
+    }
+    return "Create Post"
+})
 
 const filesInp = ref(null)
 const handleUploadFiles = async () => {
@@ -114,10 +146,10 @@ const close = () => {
 
 <template>
     <div>
-        <form class="form" @submit.prevent="createPost">
+        <form class="form" @submit.prevent="savePost">
             <Popup @close="close" container-popup-max-width="500px">
                 <template v-slot:header>
-                    Create Post
+                    {{ labelTitle }}
                 </template>
                 <template v-slot:body>
                     <label>Title</label>
@@ -161,7 +193,7 @@ const close = () => {
 
                 </template>
                 <template v-slot:bottom>
-                    <button type="submit" style="margin-left: auto;">Create Post</button>
+                    <button type="submit">{{ labelTitle }}</button>
                     <button type="button" @click="close" class="btn--light">Cancel</button>
                 </template>
             </Popup>
