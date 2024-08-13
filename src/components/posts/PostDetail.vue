@@ -63,8 +63,8 @@ const isMyPost = computed(() => {
                     <span>{{ "Bài viết" }}</span>
                     <MenuDropdown :icon="`bi bi-three-dots`" v-if="isMyPost">
                         <template #options>
-                            <span class="popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i>Update</span>
-                            <span class="popup-tab" @click="deletePost"><i class="bi bi-trash3"></i>Delete</span>
+                            <span class="tab popup-tab" @click="openUpdatePost"><i class="bi bi-pencil"></i><span class="tab-text">Update</span></span>
+                            <span class="tab popup-tab" @click="deletePost"><i class="bi bi-trash3"></i><span class="tab-text">Delete</span></span>
                         </template>
                     </MenuDropdown>
                     <PostCreate 

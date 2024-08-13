@@ -19,12 +19,47 @@ console.log(pets.value)
 </script>
 
 <template>
-    <div>
-        <div v-for="pet of pets" :key="pet.id">
-            <b>Pets: </b>
-            <RouterLink :to="`/profile/pet/${pet.id}`"><b>{{ pet.name }}</b></RouterLink>
-            <p v-if="!hideDesc">{{ pet.description }}</p>
-        </div>
+    <div class="list-pets">
+        <RouterLink v-for="pet of pets" 
+            :key="pet.id" 
+            :to="`/profile/pet/${pet.id}`"
+            class="pet"
+        >
+            <i class="bi bi-twitter pet-avatar"></i> 
+            <span class="pet-name">{{ pet.name }}</span>
+            <!-- <p v-if="!hideDesc">{{ pet.description }}</p> -->
+        </RouterLink>
+    
     </div>
 </template>
+
+<style scoped>
+.list-pets {
+
+}
+
+.pet {
+    background: #ffe8bb;
+    color: #ff440a;
+    padding: 6px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 2px solid #faaa65;
+    border-radius: 6px;
+}
+
+.pet + .pet {
+    margin-left: 12px;
+}
+
+.pet-avatar {
+    width: 24px;
+    height: 24px;
+}
+
+.pet-name {
+
+}
+</style>
 

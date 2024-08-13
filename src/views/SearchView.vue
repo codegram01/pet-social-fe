@@ -3,6 +3,8 @@ import { computed, onBeforeMount, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { search_api } from "@/services/search";
 import ItemPost from '@/components/posts/ItemPost.vue';
+import CardUser from "@/components/profile/CardUser.vue";
+import HashtagsPopular from "@/components/posts/HashtagsPopular.vue";
 
 const route = useRoute()
 
@@ -32,9 +34,6 @@ watch(()=> keySearch.value, () => {
 
 const searchData = ref([])
 const search = async () => {
-    if (serviceSearch.value == "all") {
-        return
-    }
     try {
         await search_api(serviceSearch.value, keySearch.value).then(res => {
             searchData.value = res
@@ -44,86 +43,92 @@ const search = async () => {
     }
 }
 
-/*
- - articles
-        - pets
-        - posts
-        - profiles
-*/
-const searchServices = ref([
+const searchServices = ref([ 
     {
-        name: 'All',
-        service: 'all'
-    }, {
+        name: 'Posts',
+        service: 'posts'
+    },
+    {
         name: 'Pets',
         service: 'pets'
     }, {
         name: 'Profiles',
         service: 'profiles'
     }, {
-        name: 'Posts',
-        service: 'posts'
-    }, {
-        name: 'Articles',
-        service: 'articles'
-    }, {
         name: 'Tags',
         service: 'tags'
     }
 ])
 
-function replaceText(str, fromValue, toValue) {
-  // Create a case-insensitive regular expression with the global flag (g)
-  const regex = new RegExp(fromValue, 'gi');
-  return str.replace(regex, toValue);
-}
-
-const displayText = (text) => {
-    // text = text.replace(/keySearch.value/gi, `<b>${keySearch.value}</b>`)
-
-    text = replaceText(text, keySearch.value, `<b style='background: yellow'>${keySearch.value}</b>`)
-
-    return text
-}
-
 </script>
 
 <template>
-    <div>
-        <h1>Search {{ keySearch }}</h1>
-
-        <ul>
-            <li v-for="searchService of searchServices" :key="searchService.service">
-                <RouterLink :to="`/search?key=${keySearch}&service=${searchService.service}`">{{ searchService.name }}
-                </RouterLink>
-            </li>
-        </ul>
-        <hr>
-        <div>
-            <div v-if="serviceSearch == 'all'">
-
+    <div class="main">
+        <div class="main-left">
+            <div class="card search-filter">
+                <div class="search-title">Search: </div>
+                <ul>
+                    <li v-for="searchService of searchServices" :key="searchService.service">
+                        <RouterLink :to="`/search?key=${keySearch}&service=${searchService.service}`">{{ searchService.name }}
+                        </RouterLink>
+                    </li>
+                </ul>
             </div>
+        </div>
+        <div class="main-center">
+            <div v-if="serviceSearch == 'posts'">
+                <ItemPost  v-for="item of searchData" :key="item.id" :post="item" />
+            </div>
+
             <div v-if="serviceSearch == 'pets'">
-                <div v-for="item of searchData" :key="item.id">
+                <!-- <div v-for="item of searchData" :key="item.id">
                     <RouterLink v-html="displayText(item.name)"></RouterLink>
                     <p v-html="displayText(item.description)"></p>
-                </div>
+                </div> -->
             </div>
             <div v-if="serviceSearch == 'profiles'">
-                <div v-for="item of searchData" :key="item.id">
+                <div class="card" v-for="item of searchData" :key="item.id">
+                    <CardUser :profile_id="item.id" />
+                </div>
+             
+                <!-- <div v-for="item of searchData" :key="item.id">
                     <RouterLink v-html="displayText(item.name)"></RouterLink>
                     <p  v-html=displayText(item.description) ></p>
-                </div>
+                </div> -->
             </div>
-            <div v-if="serviceSearch == 'posts'">
-                <div v-for="item of searchData" :key="item.id">
-                    <ItemPost :post="item" />
-                </div>
+            
+        </div>
+        <div class="main-right">
+            <div class="card">
+                <div class="popular-hashtags-title">Popular Hashtags</div>
+                <HashtagsPopular/>
             </div>
-
-
+            <div class="card">
+                <img style="width: 100%;" src="https://fly.io/phx/ui/images/fly-globe-cb332f77ddb429aa3ef4e0a2c6c592ba.png?vsn=d" alt="">
+            </div>
         </div>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.search-title {
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+
+.search-filter ul {
+    padding-left: 24px;
+}
+
+.search-filter li {
+    padding: 6px 0px;
+    font-size: 16px;
+}
+
+.popular-hashtags-title {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 12px;
+}
+</style>

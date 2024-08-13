@@ -30,9 +30,9 @@ const openEditMess = () => {
 </script>
 
 <template>
-    <div class="action">
-        <button v-if="isMyMess" @click="openEditMess">Edit</button> |
-        <button v-if="isMyMess" @click="deleteMess">Delete</button>
+    <div class="tab-list-col  action">
+        <span v-if="isMyMess" class="tab" @click="openEditMess"><i class="bi bi-pencil"></i></span>
+        <span v-if="isMyMess" class="tab"  @click="deleteMess"><i class="bi bi-trash3"></i></span>
     </div>
 </template>
 
@@ -43,10 +43,16 @@ const openEditMess = () => {
     top: 0;
     display: none;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid var(--c-border);
+    top: -24px;
+    border-radius: 6px;
 }
 
 .message-div:hover .action{
-    display: block;
+    display: flex;
+}
+
+.tab:hover {
+    background-color: rgb(208, 221, 222);
 }
 </style>

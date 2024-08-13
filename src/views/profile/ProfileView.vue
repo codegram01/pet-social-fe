@@ -248,21 +248,37 @@ const createProfilePet = (pet) => {
             </div>
             <div class="profile-main">
                 <div class="profile-left">
-                    <div class="card">
-                        {{ profile.description }}
-                    </div>
                     <div class="card" v-if="type == 'PROFILE'">
-                        <div>
-                            <b>Phone: </b><span>{{ profile.phone }}</span>
+                        <div class="profile-desc">
+                            {{ profile.description }}
                         </div>
-                        <div>
-                            <b v-if="followCount.followers" @click="openListFollowers">Followers: </b><span>{{
-                            followCount.followings.length }}</span>
+                        <div class="profile-follow">
+                            <i class="bi bi-person-lines-fill follow-icn"></i>
+                            <div class="follow-div" v-if="followCount.followers" @click="openListFollowers">
+                                <span class="follow-length">
+                                    {{followCount.followers.length }}
+                                </span>
+                                <span class="follow-text">followers</span>
+                            </div>
+                            -
+                            <div class="follow-div" v-if="type == 'PROFILE'" @click="openListFollowings">
+                                <span class="follow-length">{{followCount.followings.length }}</span>
+                                <span class="follow-text">followings</span>
+                            </div>
                         </div>
-                        <div>
-                            <b v-if="type == 'PROFILE'" @click="openListFollowings">Followings: </b><span>{{
-                            followCount.followings.length }}</span>
+
+                        <div class="tab-list-row profile-link">
+                            <div class="tab">
+                                <b>Phone: </b><span> {{ profile.phone }}</span>
+                            </div>
+                            <div class="tab">
+                                <b>Email: </b><span> abc@gmail.com</span>
+                            </div>
+                            <div class="tab">
+                                <b>Website: </b><span> example.com</span>
+                            </div>
                         </div>
+                        
                     </div>
                     <div class="card" v-else>
                         <div>
@@ -365,5 +381,41 @@ const createProfilePet = (pet) => {
 .profile-detail {
     width: 100%;
     flex: 1;
+}
+
+.profile-desc {
+    font-size: 15px;
+    margin-bottom: 12px;
+}
+
+.profile-follow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.follow-icn {
+
+}
+
+.follow-div {
+    font-size: 15px;
+    font-weight: 500;
+    color: rgb(22, 22, 22);
+}
+
+.follow-length {
+    
+    margin-right: 6px;
+}
+
+.follow-text {
+
+}
+
+.profile-link {
+    padding-top: 12px;
+    border-top: 1px solid var(--c-border);
 }
 </style>
