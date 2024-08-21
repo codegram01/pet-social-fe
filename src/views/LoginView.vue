@@ -65,7 +65,8 @@ const login = async () => {
 <template>
     <div class="main">
         <div class="main-center">
-            <form class="card form" @submit.prevent="login">
+			<div class="card" style="display:flex">
+				<form class="form half" @submit.prevent="login">
                     <label>Email</label>
                     <input type="email" class="form-control" v-model="dataLogin.email" placeholder="Enter email">
                     <div class="error">{{ errEmail }}</div>
@@ -76,11 +77,12 @@ const login = async () => {
 
                     <button type="submit" class="btn btn-primary">Login</button>
                 </form>
-
-                <div class="help-block">
-                    Not have account
-                    <RouterLink to="/register">Register</RouterLink>
-                </div>
+				<img class="half" src="/public/icons/login-thumbnail.png"/>
+			</div>
+			<div class="help-block">
+				Not have account
+				<RouterLink to="/register">Register</RouterLink>
+			</div>
         </div>
     </div>
 </template>
@@ -88,5 +90,17 @@ const login = async () => {
 <style scoped>
 .help-block {
     margin-top: 24px;
+}
+
+.form {
+	margin-top: 24px;
+}
+
+.form input {
+	width: 100%;
+}
+
+.half {
+	width: 50%;
 }
 </style>

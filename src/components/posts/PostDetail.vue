@@ -85,7 +85,7 @@ const isMyPost = computed(() => {
                         <div v-if="post.pets && post.pets.length > 0">
                             <ListPet :pet_ids="post.pets" :hideDesc="true"/>
                         </div>
-                        <div v-if="post.hashtags" style="margin-top: 12px;">
+                        <div v-if="post.hashtags" style="margin: 12px 0px;">
                             <ListHashtag :hashtags="post.hashtags"/>
                         </div>
 
@@ -99,7 +99,7 @@ const isMyPost = computed(() => {
                                 <CardUser :profile_id="comment.profile_id" ></CardUser>
                                 <div class="comment-content">
                                     <p class="comment-text">{{ comment.content }}</p>
-                                    <span class="comment-time">{{ comment.created_at }}</span>
+                                    <!--span class="comment-time">{{ comment.created_at }}</span-->
                                 </div>
                                 <br />
                             </div>
@@ -155,8 +155,7 @@ const isMyPost = computed(() => {
     background-color: #f0f2f5;
     border-radius: 18px;
     padding: 10px;
-    margin-left: 46px;
-    margin-top: -12px;
+    margin-left: 32px;
     max-width: 80%;
 }
 

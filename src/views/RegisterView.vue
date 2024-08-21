@@ -44,81 +44,74 @@ const confirmRegister = () => {
 </script>
 
 <template>
-    <div>
-        <h1 class="text-center headline py-5">
-            Register
-        </h1>
+    <div class="main">
+        <div class="main-center">
+			<div class="card">
+				<div class="title">Register new account</div>
+				<div style="display: flex">
+					<form class="form" @submit.prevent="confirmRegister">
+						<label>Email</label>
+						<input 
+							type="email" 
+							class="form-control" 
+							v-model="dataRegister.email" 
+							placeholder="Enter email"
+						>
+						<div class="error">{{ errRegister }}</div>
 
-        <v-card
-            class="text-center mx-auto"
-            max-width="500px"
-        >
-            <v-icon
-                size="120px"
-                class="my-5"
-            >
-                mdi-account-circle
-            </v-icon>
-            <v-col
-                cols="11"
-                class="mx-auto"
-            >
-                <v-form
-                    ref="formLogin"
-                    class="text-left"
-                >
-                    <v-text-field
-                        v-model="dataRegister.email"
-                        label="Email"
-                        type="email"
-                        append-inner-icon="mdi-email"
-                        color="primary"
-                        variant="solo"             
-                        autofocus
-                        validate-on-blur
-                    />
-                    <v-text-field
-                        v-model="dataRegister.password"
-                        label="Password"
-                        type="password"
-                        append-inner-icon="mdi-lock"
-                        color="primary"
-                        variant="solo"
-                        class="mb-3"
-                        hide-details="auto"              
-                        validate-on-blur
-                    />
+						<label>Password</label>
+						<input 
+							type="password" 
+							class="form-control" 
+							v-model="dataRegister.password" 
+							placeholder="Enter password"
+						>
+						<div class="error"></div>
 
-                    <v-text-field
-                        v-model="dataRegister.confirm_password"
-                        label="Confirm Password"
-                        type="password"
-                        append-inner-icon="mdi-lock"
-                        color="primary"
-                        variant="solo"
-                        class="mb-3"
-                        hide-details="auto"              
-                        validate-on-blur
-                        @keyup.enter="confirmRegister"
-                    />
+						<label>Confirm Password</label>
+						<input 
+							type="password" 
+							class="form-control" 
+							v-model="dataRegister.confirm_password" 
+							placeholder="Enter confirm password"
+						>
+						<div class="error"></div>
 
-                    <div class="text-right">
-                        <v-btn
-                            @click="confirmRegister"
-                            color="primary"
-                            class="text-white mt-3"
-                        >
-                            Register
-                        </v-btn>
-                        <div class="help-block">
-                            Not have account
-                            <RouterLink to="/login">Login</RouterLink>
-                        </div>
-                    </div>
-                </v-form>
-            </v-col>
-        </v-card>
+						<button type="submit" class="btn btn-primary">Register</button>
+					</form>
+					<img style="width: 100%" src="/public/icons/login-thumbnail-2.png"/>
+
+				</div>
+			</div>
+			<div class="help-block">
+				Have account
+				<RouterLink to="/login">Login</RouterLink>
+			</div>
+        </div>
     </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.help-block {
+    margin-top: 24px;
+}
+.half {
+	width: 50%;
+}
+.form {
+	width: 70%;
+	margin-top: 24px;
+}
+
+.form input {
+	width: 100%;
+}
+
+.title {
+	font-size: 20px;
+	color: var(--c-primary);
+	border-bottom: 1px solid var(--c-border);
+	padding-bottom: 18px;
+	padding-top: 12px;
+}
+</style>

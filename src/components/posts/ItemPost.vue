@@ -84,7 +84,7 @@ const handleDeletePost = () => {
 }
 
 const isMyPost = computed(() => {
-    if (auth_user.value.profile_id == props.post.profile_id) {
+    if (auth_user.value && auth_user.value.profile_id == props.post.profile_id) {
         return true;
     }
 

@@ -13,6 +13,7 @@ onBeforeMount(async()=> {
 })
 
 const getPosts = async () => {
+	console.log(props.type);
     if(props.type == "ALL") {
         await post_list_api().then(res => {
             posts.value = res;
@@ -125,6 +126,9 @@ const createPost = (post) => {
             </div>
             <div class="card">
                 <img style="width: 100%;" src="https://fly.io/phx/ui/images/fly-globe-cb332f77ddb429aa3ef4e0a2c6c592ba.png?vsn=d" alt="">
+            </div>
+            <div class="card">
+                <img style="width: 100%;" src="https://img.freepik.com/free-vector/hand-drawn-animal-avatars-element-collection_23-2149700160.jpg?semt=ais_hybrid" alt="">
             </div>
         </div>
         <PostCreate v-if="showCreatePost" @close="closeCreatePost" @createPost="createPost"/>

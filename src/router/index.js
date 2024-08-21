@@ -46,6 +46,10 @@ const router = createRouter({
       path: '/profile/pet/:idUser',
       component: () => import('@/views/profile/ProfileView.vue'),
       props: { type: 'PET' }
+    },{
+      path: '/profile/create',
+      component: () => import('@/views/profile/ProfileHover.vue'),
+      props: { type: 'CREATE_PROFILE' }
     }
     
     // Chats

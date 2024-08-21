@@ -4,7 +4,7 @@ import { profile_update_api, profile_get_api } from "@/services/profile"
 import { pet_create_api, detail_pet_api, pet_update_api } from "@/services/pet"
 import { isCreatedProfile, auth_user } from "@/stores/auth"
 import { useRoute, useRouter } from "vue-router";
-import Popup from "../common/Popup.vue";
+import Popup from "@/components/common/Popup.vue";
 const emits = defineEmits(["close", "updateProfile", "createProfilePet"]);
 
 const router = useRouter();
@@ -64,9 +64,13 @@ const updateProfile = async () => {
                     birthday: new Date(dataProfile.value.birthday),
                     gender: dataProfile.value.gender
                 }).then(res => {
-                    auth_user.value.profile_id = res.id;
-                    close();
-                    emits("updateProfile", res)
+					if(isCreatedProfile.value) {
+						auth_user.value.profile_id = res.id;
+						close();
+						emits("updateProfile", res)
+					} else {
+						router.push(`/profile/${res.id}`);
+					}
                 })
             } catch (error) {
                 console.log(error)
@@ -83,12 +87,11 @@ const updateProfile = async () => {
                     gender: dataProfile.value.gender,
                     specie_type: dataProfile.value.specie_type
                 }).then(res => {
-                    if(route.path.includes('/pet/')){
-                        emits("createProfilePet", res)
-                    } else {
+					if(props.type == 'PET') {
                         router.push(`/profile/pet/${res.id}`)
-                    }
-                    
+					} else {
+                        emits("updateProfilePet", res)
+					}
                     close();
                 })
             } catch (error) {
@@ -138,8 +141,6 @@ const disableDate = computed(()=> {
 
 <template>
     <div>
-        <h1 v-if="isCreatedProfile">Update profile</h1>
-        <h1 v-else>Create profile</h1>
         <form class="form" @submit.prevent="updateProfile">
             <Popup @close="close">
                 <template v-slot:header>

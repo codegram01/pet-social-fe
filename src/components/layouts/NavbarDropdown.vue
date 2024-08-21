@@ -33,7 +33,7 @@ const switchDropdown = () => {
             <!-- <div class="overlay"></div> -->
             <div class="popup" @click="closeDropdown">
                 <span class="popup-tab">{{ auth_user.email }}</span>
-                <RouterLink v-if="!isCreatedProfile" class="popup-tab" to="/profile/update">Create Profile</RouterLink>
+                <RouterLink v-if="!isCreatedProfile" class="popup-tab" to="/profile/create">Create Profile</RouterLink>
                 <RouterLink v-else class="popup-tab" :to="'/profile/' + auth_user.profile_id">MyProfile</RouterLink>
                 <span class="popup-tab" @click="logout">Logout</span>
             </div>

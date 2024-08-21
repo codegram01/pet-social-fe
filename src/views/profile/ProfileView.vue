@@ -25,8 +25,10 @@ const idProfile = computed(() => {
     return route.params.idUser
 })
 
-watch(() => idProfile.value, async () => {
+
+watch(() => [idProfile.value, props.type], async () => {
     isDoneLoad.value = false;
+
     try {
         await getProfile();
         await getFollowCount();
@@ -193,7 +195,7 @@ const updateProfile = (p) => {
     profile.value.birthday = p.birthday
 }
 
-const createProfilePet = (pet) => {
+const updateProfilePet = (pet) => {
     profile.value.name = pet.name
     profile.value.description = pet.description
     profile.value.specie_type = pet.specie_type
@@ -209,9 +211,11 @@ const createProfilePet = (pet) => {
 
         <div class="main-center" v-if="isDoneLoad && profile">
             <div class="profile-top">
-                <img src="https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733_640.jpg" alt="Cover Photo" class="cover-photo">
+				<img v-if="type == 'PROFILE'" class="cover-photo" src="https://scontent.fdad3-1.fna.fbcdn.net/v/t39.30808-6/306280037_493862252607886_2979074565757683905_n.jpg?_nc_cat=103&ccb=1-7&_nc_sid=cc71e4&_nc_ohc=y1nDMGnyQd0Q7kNvgEIpD8d&_nc_ht=scontent.fdad3-1.fna&oh=00_AYBRcVQ8ZrDQ0_wIQltV2BtK4bFEZX86ORStIIh8_XxxEg&oe=66CB1C3D"/>
+                <img v-else src="https://cdn.pixabay.com/photo/2018/10/01/09/21/pets-3715733_640.jpg" alt="Cover Photo" class="cover-photo">
                 <div class="profile-top-desc">
-                    <img src="@/public/images/avatar.png" alt="Profile Photo" class="profile-photo">
+                    <img v-if="type == 'PROFILE'" src="@/public/images/avatar.png" alt="Profile Photo" class="profile-photo">
+                    <img v-else src="/public/icons/pet-avatar.png" alt="Profile Photo" class="profile-photo">
                     <div class="profile-top-action">
                         <div class="profile-name">
                             {{ profile.name }}
@@ -242,7 +246,7 @@ const createProfilePet = (pet) => {
                     :type="updateProfileType" 
                     @close="closeUpdateProfile"
                     @updateProfile="updateProfile"
-                    @createProfilePet="createProfilePet"
+                    @updateProfilePet="updateProfilePet"
                 />
                 
             </div>
@@ -296,9 +300,22 @@ const createProfilePet = (pet) => {
                     </div>
                 </div>
                 <div class="profile-detail">
-                    <ListPost :post_ids="profile.posts" />
+					<ListPost :post_ids="profile.posts" v-if="profile.posts && profile.posts.length > 0"/>
+					<div v-if="profile.posts.length == 0" class="card">
+						<div>There are no posts yet</div>
+						<br>
+						<RouterLink v-if="isMyProfile || isMyPet" class="btn" to="/">Create new post</RouterLink>
+					</div>
                     <ListCardUser v-if="showListUser" :profile_ids="showListUserProfileIds" @close="closeListUser" />
                 </div>
+				<div class="profile-right">
+					<div class="card">
+						<div class="popular-hashtags-title">Follow to see more posts</div>
+					</div>
+					<div class="card">
+						<img style="width: 100%;" src="https://static.vecteezy.com/system/resources/previews/001/261/012/non_2x/connecting-people-avatars-vector.jpg" alt="">
+					</div>
+				</div>
             </div>
         </div>
     </div>
@@ -381,6 +398,11 @@ const createProfilePet = (pet) => {
 .profile-detail {
     width: 100%;
     flex: 1;
+}
+
+.profile-right {
+    width: 250px;
+    margin-left: 24px;
 }
 
 .profile-desc {
